@@ -217,6 +217,9 @@ memiliki API ini. Kita akan membahas mengenai ini lebih lanjut.</p>
               </div>
               <p>Mengimplementasi <code>mixins</code> terhadap module <code>base</code>. <code>mixins</code> adalah
 sebuah <code>Array</code>.</p>
+<p>Contohnya:</p>
+<pre><code class="lang-javascript">compose.mixin(this, [withGerak, withMakan, withIstirahat]);
+</code></pre>
 
             </div>
             
@@ -232,9 +235,22 @@ sebuah <code>Array</code>.</p>
       });
 
       setPropertyWritability(base, <span class="literal">true</span>);
-    }
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Mempublikasikan API agar dapat dimanfaatkan module lain</p>
 
-    <span class="keyword">return</span> {
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">return</span> {
       mixin: mixin,
       unlockProperty: unlockProperty
     };

@@ -93,6 +93,12 @@ define(
 
     // Mengimplementasi `mixins` terhadap module `base`. `mixins` adalah
     // sebuah `Array`.
+    // 
+    // Contohnya:
+    // 
+    // ```javascript
+    // compose.mixin(this, [withGerak, withMakan, withIstirahat]);
+    // ```
     function mixin(base, mixins) {
       base.mixedIn = base.hasOwnProperty('mixedIn') ? base.mixedIn : [];
 
