@@ -6,6 +6,8 @@ Sehingga, saya sangatlah terbuka bila Anda mau meluruskan komentar saya yang kel
 
 # Tentang FlightJS
 
+![](pics/flight.png)
+
 FlightJS adalah sebuah framework kecil yang unik. Pendekatannya unik. Paradigma berfikirinya unik.
 
 Setiap komponen hanya dapat berkomunikasi dengan komponen lain melalui `event`. Pendekatan ini diambil untuk meminimalisir ketergantungan dengan komponen lain. Sehingga, sistem menjadi modular, karena komponen hanya perlu tahu tentang `event`.
