@@ -83,7 +83,19 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <p>Module ini menyediakan API untuk menerapkan Aspect Oriented Programming
+(AOP) di FlightJS.</p>
+<p>Secara sederhana, AOP adalah konsep dimana kita dapat <em>membungkus</em> suatu
+metode tertentu. Jadi, kita dapat menjalankan suatu metode lain ketika
+metode yang dibungkus tadi hendak dijalankan, telah dijalankan, ataupun
+keduanya. <em>Metode lain</em> ini dinamakan <code>advice</code>.</p>
+<p>Berikut adalah beberapa mekanisme AOP yang disediakan oleh FlightJS:</p>
+<ul>
+<li><code>around</code>: advice dijalankan sebelum dan sesudah metode dijalankan</li>
+<li><code>before</code>: advice dijalankan sebelum metode dijalankan</li>
+<li><code>after</code>: advice dijalankan sesudah metode dijalankan</li>
+</ul>
+
             </div>
             
             <div class="content"><div class='highlight'><pre>define(
@@ -101,18 +113,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p><code>compose</code> menyediakan API untuk menerapkan Aspect Oriented Programming
-(AOP) di FlightJS.</p>
-<p>Secara sederhana, AOP adalah konsep dimana kita dapat <em>membungkus</em> suatu
-metode tertentu. Jadi, kita dapat menjalankan suatu metode lain ketika
-metode yang dibungkus tadi hendak dijalankan, telah dijalankan, ataupun
-keduanya. <em>Metode lain</em> ini dinamakan <code>advice</code>.</p>
-<p>Berikut adalah beberapa mekanisme AOP yang disediakan oleh FlightJS:</p>
-<ul>
-<li><code>around</code>: advice dijalankan sebelum dan sesudah metode dijalankan</li>
-<li><code>before</code>: advice dijalankan sebelum metode dijalankan</li>
-<li><code>after</code>: advice dijalankan sesudah metode dijalankan</li>
-</ul>
+              <p><code>compose</code> adalah module untuk menerapkan mixin</p>
 
             </div>
             
