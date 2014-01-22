@@ -226,8 +226,28 @@ sebuah <code>Array</code>.</p>
             <div class="content"><div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">mixin</span><span class="params">(base, mixins)</span> {</span>
       base.mixedIn = base.hasOwnProperty(<span class="string">'mixedIn'</span>) ? base.mixedIn : [];
 
-      mixins.forEach(<span class="function"><span class="keyword">function</span><span class="params">(mixin)</span> {</span>
-        <span class="keyword">if</span> (base.mixedIn.indexOf(mixin) == -<span class="number">1</span>) {
+      mixins.forEach(<span class="function"><span class="keyword">function</span><span class="params">(mixin)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Kita perlu mematikan bahwa <code>mixin</code> dengan nama yang sama
+tidak ditambahkan lagi ke <code>base</code>, bila sebelumnya, nama
+<code>mixin</code> tersebut telah digunakan.</p>
+<p>Caranya adalah dengan mencari apakah <code>mixin</code> terdapat
+di dalam properti <code>mixedIn</code> pada <code>base</code>. Properti <code>mixedIn</code>
+digunakan untuk merekam <code>mixin</code> yang telah disuntikkan ke
+<code>base</code>. Ia adalah sebuah <code>Array</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> (base.mixedIn.indexOf(mixin) == -<span class="number">1</span>) {
           setPropertyWritability(base, <span class="literal">false</span>);
           mixin.call(base);
           base.mixedIn.push(mixin);
@@ -240,11 +260,11 @@ sebuah <code>Array</code>.</p>
         </li>
         
         
-        <li id="section-6">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>Mempublikasikan API agar dapat dimanfaatkan module lain</p>
 

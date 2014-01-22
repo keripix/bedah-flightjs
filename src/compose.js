@@ -103,6 +103,14 @@ define(
       base.mixedIn = base.hasOwnProperty('mixedIn') ? base.mixedIn : [];
 
       mixins.forEach(function(mixin) {
+        // Kita perlu mematikan bahwa `mixin` dengan nama yang sama
+        // tidak ditambahkan lagi ke `base`, bila sebelumnya, nama
+        // `mixin` tersebut telah digunakan.
+        // 
+        // Caranya adalah dengan mencari apakah `mixin` terdapat
+        // di dalam properti `mixedIn` pada `base`. Properti `mixedIn`
+        // digunakan untuk merekam `mixin` yang telah disuntikkan ke
+        // `base`. Ia adalah sebuah `Array`.
         if (base.mixedIn.indexOf(mixin) == -1) {
           setPropertyWritability(base, false);
           mixin.call(base);
