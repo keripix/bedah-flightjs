@@ -29,6 +29,10 @@
 // 
 // Dengan memanfaatkan `compose.mixin`, kita telah memasang mixin
 // `withGerak` pada `manusia`.
+// 
+// Contoh di atas digunakan ketika kita hendak memanfaatkan API `mixin`
+// pada komponen non-flightJS. Sementara komponen FlightJS sudah
+// memiliki API ini. Kita akan membahas mengenai ini lebih lanjut.
 define(
 
   [

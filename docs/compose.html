@@ -83,7 +83,31 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <p>Module compose bertanggung jawab untuk menerapkan mixin.
+Mixin adalah mekanisme yang digunakan oleh FlightJS untuk
+berbagi kode dan fungsionalitas.</p>
+<p>Misal Anda memiliki kode berikut:</p>
+<pre><code class="lang-javascript">function withGerak() {
+  this.jalan = function() {
+  }
+}
+</code></pre>
+<p>Kemudian kita memiliki module berikut.</p>
+<pre><code class="lang-javascript">function manusia() {
+}
+</code></pre>
+<p>Kita ingin module <code>manusia</code> di atas dapat bergerak. Kita dapat
+memanfaatkan mixin untuk melakukannya:</p>
+<pre><code class="lang-javascript">function manusia() {
+  compose.mixin(this, [withGerak]);
+}
+</code></pre>
+<p>Dengan memanfaatkan <code>compose.mixin</code>, kita telah memasang mixin
+<code>withGerak</code> pada <code>manusia</code>.</p>
+<p>Contoh di atas digunakan ketika kita hendak memanfaatkan API <code>mixin</code>
+pada komponen non-flightJS. Sementara komponen FlightJS sudah
+memiliki API ini. Kita akan membahas mengenai ini lebih lanjut.</p>
+
             </div>
             
             <div class="content"><div class='highlight'><pre>define(
