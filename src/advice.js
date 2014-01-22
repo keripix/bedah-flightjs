@@ -65,8 +65,10 @@ define(
           // Inilah mengapat kita perlu merekam metode yang hendak dibungkus
           // ini (`base`) sebagai anggota pertama dari `args`.
           // 
-          // Jangan lupa untuk memasang `scope` dari `base` kepada metode yang
-          // menjalankan `around` ini.
+          // Bagaimana dengan ini: `base.bind(this);` ?
+          // 
+          // Tujuannya adalah untuk memasang `scope` dari `base` kepada metode
+          // yang menjalankan `around` ini.
           args[0] = base.bind(this);
 
           // Kita tetap akan memberikan akses terhadap parameter asli

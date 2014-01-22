@@ -202,15 +202,45 @@ kembali bagaimana metode <code>around</code> ini digunakan.</p>
 metode yang hendak dibungkus sebagai parameter pertamanya.</p>
 <p>Inilah mengapat kita perlu merekam metode yang hendak dibungkus
 ini (<code>base</code>) sebagai anggota pertama dari <code>args</code>.</p>
-<p>Jangan lupa untuk memasang <code>scope</code> dari <code>base</code> kepada metode yang
-menjalankan <code>around</code> ini.</p>
+<p>Bagaimana dengan ini: <code>base.bind(this);</code> ?</p>
+<p>Tujuannya adalah untuk memasang <code>scope</code> dari <code>base</code> kepada metode
+yang menjalankan <code>around</code> ini.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>          args[<span class="number">0</span>] = base.bind(<span class="keyword">this</span>);
-          <span class="keyword">for</span> (; i &lt; l; i++) args[i + <span class="number">1</span>] = arguments[i];
+            <div class="content"><div class='highlight'><pre>          args[<span class="number">0</span>] = base.bind(<span class="keyword">this</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Kita tetap akan memberikan akses terhadap parameter asli
+<code>base</code> sehingga dapat kita akses di <code>advice</code>.</p>
 
-          <span class="keyword">return</span> wrapped.apply(<span class="keyword">this</span>, args);
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="keyword">for</span> (; i &lt; l; i++) args[i + <span class="number">1</span>] = arguments[i];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Setelah semuanya telah dipersiapkan, kita kembalikan <code>advice</code> ini.
+Alhasil, <code>base</code> sudah tergantikan oleh <code>advice</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="keyword">return</span> wrapped.apply(<span class="keyword">this</span>, args);
         };
       },
 
@@ -234,11 +264,11 @@ menjalankan <code>around</code> ini.</p>
         </li>
         
         
-        <li id="section-7">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>a mixin that allows other mixins to augment existing functions by adding additional
 code before, after or around.</p>
