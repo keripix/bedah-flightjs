@@ -107,6 +107,7 @@ define(
       setPropertyWritability(base, true);
     }
 
+    // Mempublikasikan API agar dapat dimanfaatkan module lain
     return {
       mixin: mixin,
       unlockProperty: unlockProperty
