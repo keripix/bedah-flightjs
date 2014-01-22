@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>advice.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="advice.html">
+                advice.js
+              </a>
+            
+              
+              <a class="source" href="base.html">
+                base.js
+              </a>
+            
+              
+              <a class="source" href="component.html">
+                component.js
+              </a>
+            
+              
+              <a class="source" href="compose.html">
+                compose.js
+              </a>
+            
+              
+              <a class="source" href="debug.html">
+                debug.js
+              </a>
+            
+              
+              <a class="source" href="index.html">
+                index.js
+              </a>
+            
+              
+              <a class="source" href="logger.html">
+                logger.js
+              </a>
+            
+              
+              <a class="source" href="registry.html">
+                registry.js
+              </a>
+            
+              
+              <a class="source" href="utils.html">
+                utils.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>advice.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>define(
+
+  [
+    <span class="string">'./compose'</span>
+  ],</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p><code>compose</code> menyediakan API untuk menerapkan Aspect Oriented Programming
+(AOP) di FlightJS.</p>
+<p>Secara sederhana, AOP adalah konsep dimana kita dapat <em>membungkus</em> suatu
+metode tertentu. Jadi, kita dapat menjalankan suatu metode lain ketika
+metode yang dibungkus tadi hendak dijalankan, telah dijalankan, ataupun
+keduanya. <em>Metode lain</em> ini dinamakan <code>advice</code>.</p>
+<p>Berikut adalah beberapa mekanisme AOP yang disediakan oleh FlightJS:</p>
+<ul>
+<li><code>around</code>: advice dijalankan sebelum dan sesudah metode dijalankan</li>
+<li><code>before</code>: advice dijalankan sebelum metode dijalankan</li>
+<li><code>after</code>: advice dijalankan sesudah metode dijalankan</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">function</span><span class="params">(compose)</span> {</span>
+    <span class="string">'use strict'</span>;
+
+    <span class="keyword">var</span> advice = {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Menjalankan <em>advice</em> (<code>wrapped</code>) sebelum dan sesudah <code>base</code> dijalankan
+Cara menggunakannya:</p>
+<pre><code>define(function() {
+  function withDrama() {
+
+    // Menerapkan `advice`. Perhatikan bahwa metode asli
+    // menjadi parameter pertama dari `around`.
+    this.around(&#39;announce&#39;, function(basicAnnounce) {
+      clearThroat();
+      basicAnnounce();
+      bow();
+    });
+  }
+
+  return withDrama;
+});
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      around: <span class="function"><span class="keyword">function</span><span class="params">(base, wrapped)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Metode yang dikembalikan ini mengganti metode asli, <code>base</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">composedAround</span><span class="params">()</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Kita tidak tahu, <code>base()</code> memiliki parameter apa saja.
+Oleh karena itu, kita perlu mendeteksinya terlebih dahulu.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="keyword">var</span> i = <span class="number">0</span>, l = arguments.length, args = <span class="keyword">new</span> Array(l + <span class="number">1</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Apa yang sedang dilakukan oleh baris ini? Kita perlu mengingat
+kembali bagaimana metode <code>around</code> ini digunakan.</p>
+<pre><code>this.around(&#39;announce&#39;, function(basicAnnounce) {
+  clearThroat();
+  basicAnnounce();
+  bow();
+});
+</code></pre><p>Ketika kita menerapkan <code>around</code>, maka <code>advice</code> kita akan menerima
+metode yang hendak dibungkus sebagai parameter pertamanya.</p>
+<p>Inilah mengapat kita perlu merekam metode yang hendak dibungkus
+ini (<code>base</code>) sebagai anggota pertama dari <code>args</code>.</p>
+<p>Jangan lupa untuk memasang <code>scope</code> dari <code>base</code> kepada metode yang
+menjalankan <code>around</code> ini.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          args[<span class="number">0</span>] = base.bind(<span class="keyword">this</span>);
+          <span class="keyword">for</span> (; i &lt; l; i++) args[i + <span class="number">1</span>] = arguments[i];
+
+          <span class="keyword">return</span> wrapped.apply(<span class="keyword">this</span>, args);
+        };
+      },
+
+      before: <span class="function"><span class="keyword">function</span><span class="params">(base, before)</span> {</span>
+        <span class="keyword">var</span> beforeFn = (<span class="keyword">typeof</span> before == <span class="string">'function'</span>) ? before : before.obj[before.fnName];
+        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">composedBefore</span><span class="params">()</span> {</span>
+          beforeFn.apply(<span class="keyword">this</span>, arguments);
+          <span class="keyword">return</span> base.apply(<span class="keyword">this</span>, arguments);
+        };
+      },
+
+      after: <span class="function"><span class="keyword">function</span><span class="params">(base, after)</span> {</span>
+        <span class="keyword">var</span> afterFn = (<span class="keyword">typeof</span> after == <span class="string">'function'</span>) ? after : after.obj[after.fnName];
+        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">composedAfter</span><span class="params">()</span> {</span>
+          <span class="keyword">var</span> res = (base.unbound || base).apply(<span class="keyword">this</span>, arguments);
+          afterFn.apply(<span class="keyword">this</span>, arguments);
+          <span class="keyword">return</span> res;
+        };
+      },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>a mixin that allows other mixins to augment existing functions by adding additional
+code before, after or around.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      withAdvice: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        [<span class="string">'before'</span>, <span class="string">'after'</span>, <span class="string">'around'</span>].forEach(<span class="function"><span class="keyword">function</span><span class="params">(m)</span> {</span>
+          <span class="keyword">this</span>[m] = <span class="function"><span class="keyword">function</span><span class="params">(method, fn)</span> {</span>
+
+            compose.unlockProperty(<span class="keyword">this</span>, method, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+              <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="keyword">this</span>[method] == <span class="string">'function'</span>) {
+                <span class="keyword">this</span>[method] = advice[m](<span class="keyword">this</span>[method], fn);
+              } <span class="keyword">else</span> {
+                <span class="keyword">this</span>[method] = fn;
+              }
+
+              <span class="keyword">return</span> <span class="keyword">this</span>[method];
+            });
+
+          };
+        }, <span class="keyword">this</span>);
+      }
+    };
+
+    <span class="keyword">return</span> advice;
+  }
+);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

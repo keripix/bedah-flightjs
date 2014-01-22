@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>base.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="advice.html">
+                advice.js
+              </a>
+            
+              
+              <a class="source" href="base.html">
+                base.js
+              </a>
+            
+              
+              <a class="source" href="component.html">
+                component.js
+              </a>
+            
+              
+              <a class="source" href="compose.html">
+                compose.js
+              </a>
+            
+              
+              <a class="source" href="debug.html">
+                debug.js
+              </a>
+            
+              
+              <a class="source" href="index.html">
+                index.js
+              </a>
+            
+              
+              <a class="source" href="logger.html">
+                logger.js
+              </a>
+            
+              
+              <a class="source" href="registry.html">
+                registry.js
+              </a>
+            
+              
+              <a class="source" href="utils.html">
+                utils.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>base.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>define(
+
+  [
+    <span class="string">'./utils'</span>,
+    <span class="string">'./registry'</span>,
+    <span class="string">'./debug'</span>
+  ],
+
+  <span class="function"><span class="keyword">function</span><span class="params">(utils, registry, debug)</span> {</span>
+    <span class="string">'use strict'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>common mixin allocates basic functionality - used by all component prototypes
+callback context is bound to component</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">var</span> componentId = <span class="number">0</span>;
+
+    <span class="function"><span class="keyword">function</span> <span class="title">teardownInstance</span><span class="params">(instanceInfo)</span>{</span>
+      instanceInfo.events.slice().forEach(<span class="function"><span class="keyword">function</span><span class="params">(event)</span> {</span>
+        <span class="keyword">var</span> args = [event.type];
+
+        event.element &amp;&amp; args.unshift(event.element);
+        (<span class="keyword">typeof</span> event.callback == <span class="string">'function'</span>) &amp;&amp; args.push(event.callback);
+
+        <span class="keyword">this</span>.off.apply(<span class="keyword">this</span>, args);
+      }, instanceInfo.instance);
+    }
+
+    <span class="function"><span class="keyword">function</span> <span class="title">checkSerializable</span><span class="params">(type, data)</span> {</span>
+      <span class="keyword">try</span> {
+        window.postMessage(data, <span class="string">'*'</span>);
+      } <span class="keyword">catch</span>(e) {
+        console.log(<span class="string">'unserializable data for event'</span>,type,<span class="string">':'</span>,data);
+        <span class="keyword">throw</span> <span class="keyword">new</span> Error(
+          [<span class="string">'The event'</span>, type, <span class="string">'on component'</span>, <span class="keyword">this</span>.toString(), <span class="string">'was triggered with non-serializable data'</span>].join(<span class="string">' '</span>)
+        );
+      }
+    }
+
+    <span class="function"><span class="keyword">function</span> <span class="title">withBase</span><span class="params">()</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>delegate trigger, bind and unbind to an element
+if $element not supplied, use component&#39;s node
+other arguments are passed on
+event can be either a string specifying the type
+of the event, or a hash specifying both the type
+and a default function to be called.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>.trigger = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        <span class="keyword">var</span> $element, type, data, event, defaultFn;
+        <span class="keyword">var</span> lastIndex = arguments.length - <span class="number">1</span>, lastArg = arguments[lastIndex];
+
+        <span class="keyword">if</span> (<span class="keyword">typeof</span> lastArg != <span class="string">'string'</span> &amp;&amp; !(lastArg &amp;&amp; lastArg.defaultBehavior)) {
+          lastIndex--;
+          data = lastArg;
+        }
+
+        <span class="keyword">if</span> (lastIndex == <span class="number">1</span>) {
+          $element = $(arguments[<span class="number">0</span>]);
+          event = arguments[<span class="number">1</span>];
+        } <span class="keyword">else</span> {
+          $element = <span class="keyword">this</span>.$node;
+          event = arguments[<span class="number">0</span>];
+        }
+
+        <span class="keyword">if</span> (event.defaultBehavior) {
+          defaultFn = event.defaultBehavior;
+          event = $.Event(event.type);
+        }
+
+        type = event.type || event;
+
+        <span class="keyword">if</span> (debug.enabled &amp;&amp; window.postMessage) {
+          checkSerializable.call(<span class="keyword">this</span>, type, data);
+        }
+
+        <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="keyword">this</span>.attr.eventData === <span class="string">'object'</span>) {
+          data = $.extend(<span class="literal">true</span>, {}, <span class="keyword">this</span>.attr.eventData, data);
+        }
+
+        $element.trigger((event || type), data);
+
+        <span class="keyword">if</span> (defaultFn &amp;&amp; !event.isDefaultPrevented()) {
+          (<span class="keyword">this</span>[defaultFn] || defaultFn).call(<span class="keyword">this</span>);
+        }
+
+        <span class="keyword">return</span> $element;
+      };
+
+      <span class="keyword">this</span>.on = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        <span class="keyword">var</span> $element, type, callback, originalCb;
+        <span class="keyword">var</span> lastIndex = arguments.length - <span class="number">1</span>, origin = arguments[lastIndex];
+
+        <span class="keyword">if</span> (<span class="keyword">typeof</span> origin == <span class="string">'object'</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>delegate callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          originalCb = utils.delegate(
+            <span class="keyword">this</span>.resolveDelegateRules(origin)
+          );
+        } <span class="keyword">else</span> {
+          originalCb = origin;
+        }
+
+        <span class="keyword">if</span> (lastIndex == <span class="number">2</span>) {
+          $element = $(arguments[<span class="number">0</span>]);
+          type = arguments[<span class="number">1</span>];
+        } <span class="keyword">else</span> {
+          $element = <span class="keyword">this</span>.$node;
+          type = arguments[<span class="number">0</span>];
+        }
+
+        <span class="keyword">if</span> (<span class="keyword">typeof</span> originalCb != <span class="string">'function'</span> &amp;&amp; <span class="keyword">typeof</span> originalCb != <span class="string">'object'</span>) {
+          <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">'Unable to bind to "'</span> + type + <span class="string">'" because the given callback is not a function or an object'</span>);
+        }
+
+        callback = originalCb.bind(<span class="keyword">this</span>);
+        callback.target = originalCb;
+        callback.context = <span class="keyword">this</span>;
+
+        $element.on(type, callback);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>store every bound version of the callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        originalCb.bound || (originalCb.bound = []);
+        originalCb.bound.push(callback);
+
+        <span class="keyword">return</span> callback;
+      };
+
+      <span class="keyword">this</span>.off = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        <span class="keyword">var</span> $element, type, callback;
+        <span class="keyword">var</span> lastIndex = arguments.length - <span class="number">1</span>;
+
+        <span class="keyword">if</span> (<span class="keyword">typeof</span> arguments[lastIndex] == <span class="string">'function'</span>) {
+          callback = arguments[lastIndex];
+          lastIndex -= <span class="number">1</span>;
+        }
+
+        <span class="keyword">if</span> (lastIndex == <span class="number">1</span>) {
+          $element = $(arguments[<span class="number">0</span>]);
+          type = arguments[<span class="number">1</span>];
+        } <span class="keyword">else</span> {
+          $element = <span class="keyword">this</span>.$node;
+          type = arguments[<span class="number">0</span>];
+        }
+
+        <span class="keyword">if</span> (callback) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>set callback to version bound against this instance</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          callback.bound &amp;&amp; callback.bound.some(<span class="function"><span class="keyword">function</span><span class="params">(fn, i, arr)</span> {</span>
+            <span class="keyword">if</span> (fn.context &amp;&amp; (<span class="keyword">this</span>.identity == fn.context.identity)) {
+              arr.splice(i, <span class="number">1</span>);
+              callback = fn;
+              <span class="keyword">return</span> <span class="literal">true</span>;
+            }
+          }, <span class="keyword">this</span>);
+        }
+
+        <span class="keyword">return</span> $element.off(type, callback);
+      };
+
+      <span class="keyword">this</span>.resolveDelegateRules = <span class="function"><span class="keyword">function</span><span class="params">(ruleInfo)</span> {</span>
+        <span class="keyword">var</span> rules = {};
+
+        Object.keys(ruleInfo).forEach(<span class="function"><span class="keyword">function</span><span class="params">(r)</span> {</span>
+          <span class="keyword">if</span> (!(r <span class="keyword">in</span> <span class="keyword">this</span>.attr)) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">'Component "'</span> + <span class="keyword">this</span>.toString() + <span class="string">'" wants to listen on "'</span> + r + <span class="string">'" but no such attribute was defined.'</span>);
+          }
+          rules[<span class="keyword">this</span>.attr[r]] = ruleInfo[r];
+        }, <span class="keyword">this</span>);
+
+        <span class="keyword">return</span> rules;
+      };
+
+      <span class="keyword">this</span>.defaultAttrs = <span class="function"><span class="keyword">function</span><span class="params">(defaults)</span> {</span>
+        utils.push(<span class="keyword">this</span>.defaults, defaults, <span class="literal">true</span>) || (<span class="keyword">this</span>.defaults = defaults);
+      };
+
+      <span class="keyword">this</span>.select = <span class="function"><span class="keyword">function</span><span class="params">(attributeKey)</span> {</span>
+        <span class="keyword">return</span> <span class="keyword">this</span>.$node.find(<span class="keyword">this</span>.attr[attributeKey]);
+      };
+
+      <span class="keyword">this</span>.initialize = <span class="function"><span class="keyword">function</span><span class="params">(node, attrs)</span> {</span>
+        attrs || (attrs = {});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>only assign identity if there isn&#39;t one (initialize can be called multiple times)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">this</span>.identity || (<span class="keyword">this</span>.identity = componentId++);
+
+        <span class="keyword">if</span> (!node) {
+          <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">'Component needs a node'</span>);
+        }
+
+        <span class="keyword">if</span> (node.jquery) {
+          <span class="keyword">this</span>.node = node[<span class="number">0</span>];
+          <span class="keyword">this</span>.$node = node;
+        } <span class="keyword">else</span> {
+          <span class="keyword">this</span>.node = node;
+          <span class="keyword">this</span>.$node = $(node);
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>merge defaults with supplied options
+put options in attr.<strong>proto</strong> to avoid merge overhead</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">var</span> attr = Object.create(attrs);
+        <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> <span class="keyword">this</span>.defaults) {
+          <span class="keyword">if</span> (!attrs.hasOwnProperty(key)) {
+            attr[key] = <span class="keyword">this</span>.defaults[key];
+          }
+        }
+
+        <span class="keyword">this</span>.attr = attr;
+
+        Object.keys(<span class="keyword">this</span>.defaults || {}).forEach(<span class="function"><span class="keyword">function</span><span class="params">(key)</span> {</span>
+          <span class="keyword">if</span> (<span class="keyword">this</span>.defaults[key] === <span class="literal">null</span> &amp;&amp; <span class="keyword">this</span>.attr[key] === <span class="literal">null</span>) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">'Required attribute "'</span> + key + <span class="string">'" not specified in attachTo for component "'</span> + <span class="keyword">this</span>.toString() + <span class="string">'".'</span>);
+          }
+        }, <span class="keyword">this</span>);
+
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+      };
+
+      <span class="keyword">this</span>.teardown = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        teardownInstance(registry.findInstanceInfo(<span class="keyword">this</span>));
+      };
+    }
+
+    <span class="keyword">return</span> withBase;
+  }
+);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

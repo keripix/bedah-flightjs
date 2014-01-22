@@ -22,11 +22,51 @@ define(
 
     var advice = {
 
-      // Menjalankan `wrapped` sebelum dan sesudah fungsi `base` dijalankan.
+      // Menjalankan *advice* (`wrapped`) sebelum dan sesudah `base` dijalankan
+      // Cara menggunakannya:
+      // 
+      // ```
+      // define(function() {
+      //   function withDrama() {
+      //   
+      //     // Menerapkan `advice`. Perhatikan bahwa metode asli
+      //     // menjadi parameter pertama dari `around`.
+      //     this.around('announce', function(basicAnnounce) {
+      //       clearThroat();
+      //       basicAnnounce();
+      //       bow();
+      //     });
+      //   }
+
+      //   return withDrama;
+      // });
+      // ```
       around: function(base, wrapped) {
+        // Metode yang dikembalikan ini mengganti metode asli, `base`.
         return function composedAround() {
-          // unpacking arguments by hand benchmarked faster
+          // Kita tidak tahu, `base()` memiliki parameter apa saja.
+          // Oleh karena itu, kita perlu mendeteksinya terlebih dahulu.
           var i = 0, l = arguments.length, args = new Array(l + 1);
+
+          // Apa yang sedang dilakukan oleh baris ini? Kita perlu mengingat
+          // kembali bagaimana metode `around` ini digunakan.
+          // 
+          // ```
+          // this.around('announce', function(basicAnnounce) {
+          //   clearThroat();
+          //   basicAnnounce();
+          //   bow();
+          // });
+          // ```
+          // 
+          // Ketika kita menerapkan `around`, maka `advice` kita akan menerima
+          // metode yang hendak dibungkus sebagai parameter pertamanya.
+          // 
+          // Inilah mengapat kita perlu merekam metode yang hendak dibungkus
+          // ini (`base`) sebagai anggota pertama dari `args`.
+          // 
+          // Jangan lupa untuk memasang `scope` dari `base` kepada metode yang
+          // menjalankan `around` ini.
           args[0] = base.bind(this);
           for (; i < l; i++) args[i + 1] = arguments[i];
 

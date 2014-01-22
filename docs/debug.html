@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>debug.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="advice.html">
+                advice.js
+              </a>
+            
+              
+              <a class="source" href="base.html">
+                base.js
+              </a>
+            
+              
+              <a class="source" href="component.html">
+                component.js
+              </a>
+            
+              
+              <a class="source" href="compose.html">
+                compose.js
+              </a>
+            
+              
+              <a class="source" href="debug.html">
+                debug.js
+              </a>
+            
+              
+              <a class="source" href="index.html">
+                index.js
+              </a>
+            
+              
+              <a class="source" href="logger.html">
+                logger.js
+              </a>
+            
+              
+              <a class="source" href="registry.html">
+                registry.js
+              </a>
+            
+              
+              <a class="source" href="utils.html">
+                utils.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>debug.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>==========================================</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Copyright 2013 Twitter, Inc
+Licensed under The MIT License</p>
+<h1 id="http-opensource-org-licenses-mit"><a href="http://opensource.org/licenses/MIT">http://opensource.org/licenses/MIT</a></h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>define(
+
+  [],
+
+  <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    <span class="string">'use strict'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>==========================================</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <h1 id="search-object-model">Search object model</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">traverse</span><span class="params">(util, searchTerm, options)</span> {</span>
+      options = options || {};
+      <span class="keyword">var</span> obj = options.obj || window;
+      <span class="keyword">var</span> path = options.path || ((obj==window) ? <span class="string">'window'</span> : <span class="string">''</span>);
+      <span class="keyword">var</span> props = Object.keys(obj);
+      props.forEach(<span class="function"><span class="keyword">function</span><span class="params">(prop)</span> {</span>
+        <span class="keyword">if</span> ((tests[util] || util)(searchTerm, obj, prop)){
+          console.log([path, <span class="string">'.'</span>, prop].join(<span class="string">''</span>), <span class="string">'-&gt;'</span>, [<span class="string">'('</span>, <span class="keyword">typeof</span> obj[prop], <span class="string">')'</span>].join(<span class="string">''</span>), obj[prop]);
+        }
+        <span class="keyword">if</span> (Object.prototype.toString.call(obj[prop]) == <span class="string">'[object Object]'</span> &amp;&amp; (obj[prop] != obj) &amp;&amp; path.split(<span class="string">'.'</span>).indexOf(prop) == -<span class="number">1</span>) {
+          traverse(util, searchTerm, {obj: obj[prop], path: [path,prop].join(<span class="string">'.'</span>)});
+        }
+      });
+    }
+
+    <span class="function"><span class="keyword">function</span> <span class="title">search</span><span class="params">(util, expected, searchTerm, options)</span> {</span>
+      <span class="keyword">if</span> (!expected || <span class="keyword">typeof</span> searchTerm == expected) {
+        traverse(util, searchTerm, options);
+      } <span class="keyword">else</span> {
+        console.error([searchTerm, <span class="string">'must be'</span>, expected].join(<span class="string">' '</span>));
+      }
+    }
+
+    <span class="keyword">var</span> tests = {
+      <span class="string">'name'</span>: <span class="function"><span class="keyword">function</span><span class="params">(searchTerm, obj, prop)</span> {</span><span class="keyword">return</span> searchTerm == prop;},
+      <span class="string">'nameContains'</span>: <span class="function"><span class="keyword">function</span><span class="params">(searchTerm, obj, prop)</span> {</span><span class="keyword">return</span> prop.indexOf(searchTerm) &gt; -<span class="number">1</span>;},
+      <span class="string">'type'</span>: <span class="function"><span class="keyword">function</span><span class="params">(searchTerm, obj, prop)</span> {</span><span class="keyword">return</span> obj[prop] <span class="keyword">instanceof</span> searchTerm;},
+      <span class="string">'value'</span>: <span class="function"><span class="keyword">function</span><span class="params">(searchTerm, obj, prop)</span> {</span><span class="keyword">return</span> obj[prop] === searchTerm;},
+      <span class="string">'valueCoerced'</span>: <span class="function"><span class="keyword">function</span><span class="params">(searchTerm, obj, prop)</span> {</span><span class="keyword">return</span> obj[prop] == searchTerm;}
+    };
+
+    <span class="function"><span class="keyword">function</span> <span class="title">byName</span><span class="params">(searchTerm, options)</span> {</span>search(<span class="string">'name'</span>, <span class="string">'string'</span>, searchTerm, options);}
+    <span class="function"><span class="keyword">function</span> <span class="title">byNameContains</span><span class="params">(searchTerm, options)</span> {</span>search(<span class="string">'nameContains'</span>, <span class="string">'string'</span>, searchTerm, options);}
+    <span class="function"><span class="keyword">function</span> <span class="title">byType</span><span class="params">(searchTerm, options)</span> {</span>search(<span class="string">'type'</span>, <span class="string">'function'</span>, searchTerm, options);}
+    <span class="function"><span class="keyword">function</span> <span class="title">byValue</span><span class="params">(searchTerm, options)</span> {</span>search(<span class="string">'value'</span>, <span class="literal">null</span>, searchTerm, options);}
+    <span class="function"><span class="keyword">function</span> <span class="title">byValueCoerced</span><span class="params">(searchTerm, options)</span> {</span>search(<span class="string">'valueCoerced'</span>, <span class="literal">null</span>, searchTerm, options);}
+    <span class="function"><span class="keyword">function</span> <span class="title">custom</span><span class="params">(fn, options)</span> {</span>traverse(fn, <span class="literal">null</span>, options);}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>==========================================</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <h1 id="event-logging">Event logging</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">var</span> ALL = <span class="string">'all'</span>; <span class="comment">//no filter</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>no logging by default</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">var</span> defaultEventNamesFilter = [];
+    <span class="keyword">var</span> defaultActionsFilter = [];
+
+    <span class="keyword">var</span> logFilter = retrieveLogFilter();
+
+    <span class="function"><span class="keyword">function</span> <span class="title">filterEventLogsByAction</span><span class="params">(<span class="comment">/*actions*/</span>)</span> {</span>
+      <span class="keyword">var</span> actions = [].slice.call(arguments);
+
+      logFilter.eventNames.length || (logFilter.eventNames = ALL);
+      logFilter.actions = actions.length ? actions : ALL;
+      saveLogFilter();
+    }
+
+    <span class="function"><span class="keyword">function</span> <span class="title">filterEventLogsByName</span><span class="params">(<span class="comment">/*eventNames*/</span>)</span> {</span>
+      <span class="keyword">var</span> eventNames = [].slice.call(arguments);
+
+      logFilter.actions.length || (logFilter.actions = ALL);
+      logFilter.eventNames = eventNames.length ? eventNames : ALL;
+      saveLogFilter();
+    }
+
+    <span class="function"><span class="keyword">function</span> <span class="title">hideAllEventLogs</span><span class="params">()</span> {</span>
+      logFilter.actions = [];
+      logFilter.eventNames = [];
+      saveLogFilter();
+    }
+
+    <span class="function"><span class="keyword">function</span> <span class="title">showAllEventLogs</span><span class="params">()</span> {</span>
+      logFilter.actions = ALL;
+      logFilter.eventNames = ALL;
+      saveLogFilter();
+    }
+
+    <span class="function"><span class="keyword">function</span> <span class="title">saveLogFilter</span><span class="params">()</span> {</span>
+      <span class="keyword">if</span> (window.localStorage) {
+        localStorage.setItem(<span class="string">'logFilter_eventNames'</span>, logFilter.eventNames);
+        localStorage.setItem(<span class="string">'logFilter_actions'</span>, logFilter.actions);
+      }
+    }
+
+    <span class="function"><span class="keyword">function</span> <span class="title">retrieveLogFilter</span><span class="params">()</span> {</span>
+      <span class="keyword">var</span> result = {
+        eventNames: (window.localStorage &amp;&amp; localStorage.getItem(<span class="string">'logFilter_eventNames'</span>)) || defaultEventNamesFilter,
+        actions: (window.localStorage &amp;&amp; localStorage.getItem(<span class="string">'logFilter_actions'</span>)) || defaultActionsFilter
+      };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>reconstitute arrays</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      Object.keys(result).forEach(<span class="function"><span class="keyword">function</span><span class="params">(k)</span> {</span>
+        <span class="keyword">var</span> thisProp = result[k];
+        <span class="keyword">if</span> (<span class="keyword">typeof</span> thisProp == <span class="string">'string'</span> &amp;&amp; thisProp !== ALL) {
+          result[k] = thisProp.split(<span class="string">','</span>);
+        }
+      });
+      <span class="keyword">return</span> result;
+    }
+
+    <span class="keyword">return</span> {
+
+      enable: <span class="function"><span class="keyword">function</span><span class="params">(enable)</span> {</span>
+        <span class="keyword">this</span>.enabled = !!enable;
+
+        <span class="keyword">if</span> (enable &amp;&amp; window.console) {
+          console.info(<span class="string">'Booting in DEBUG mode'</span>);
+          console.info(<span class="string">'You can configure event logging with DEBUG.events.logAll()/logNone()/logByName()/logByAction()'</span>);
+        }
+
+        window.DEBUG = <span class="keyword">this</span>;
+      },
+
+      find: {
+        byName: byName,
+        byNameContains: byNameContains,
+        byType: byType,
+        byValue: byValue,
+        byValueCoerced: byValueCoerced,
+        custom: custom
+      },
+
+      events: {
+        logFilter: logFilter,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Accepts any number of action args
+e.g. DEBUG.events.logByAction(&quot;on&quot;, &quot;off&quot;)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        logByAction: filterEventLogsByAction,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Accepts any number of event name args (inc. regex or wildcards)
+e.g. DEBUG.events.logByName(/ui.<em>/, &quot;</em>Thread*&quot;);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        logByName: filterEventLogsByName,
+
+        logAll: showAllEventLogs,
+        logNone: hideAllEventLogs
+      }
+    };
+  }
+);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

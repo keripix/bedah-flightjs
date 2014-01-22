@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>utils.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="advice.html">
+                advice.js
+              </a>
+            
+              
+              <a class="source" href="base.html">
+                base.js
+              </a>
+            
+              
+              <a class="source" href="component.html">
+                component.js
+              </a>
+            
+              
+              <a class="source" href="compose.html">
+                compose.js
+              </a>
+            
+              
+              <a class="source" href="debug.html">
+                debug.js
+              </a>
+            
+              
+              <a class="source" href="index.html">
+                index.js
+              </a>
+            
+              
+              <a class="source" href="logger.html">
+                logger.js
+              </a>
+            
+              
+              <a class="source" href="registry.html">
+                registry.js
+              </a>
+            
+              
+              <a class="source" href="utils.html">
+                utils.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>utils.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>define(
+
+  [],
+
+  <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    <span class="string">'use strict'</span>;
+
+    <span class="keyword">var</span> arry = [];
+    <span class="keyword">var</span> DEFAULT_INTERVAL = <span class="number">100</span>;
+
+    <span class="keyword">var</span> utils = {
+
+      isDomObj: <span class="function"><span class="keyword">function</span><span class="params">(obj)</span> {</span>
+        <span class="keyword">return</span> !!(obj.nodeType || (obj === window));
+      },
+
+      toArray: <span class="function"><span class="keyword">function</span><span class="params">(obj, from)</span> {</span>
+        <span class="keyword">return</span> arry.slice.call(obj, from);
+      },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>returns new object representing multiple objects merged together
+optional final argument is boolean which specifies if merge is recursive
+original objects are unmodified</p>
+<p>usage:
+  var base = {a:2, b:6};
+  var extra = {b:3, c:4};
+  merge(base, extra); //{a:2, b:3, c:4}
+  base; //{a:2, b:6}</p>
+<p>  var base = {a:2, b:6};
+  var extra = {b:3, c:4};
+  var extraExtra = {a:4, d:9};
+  merge(base, extra, extraExtra); //{a:4, b:3, c:4. d: 9}
+  base; //{a:2, b:6}</p>
+<p>  var base = {a:2, b:{bb:4, cc:5}};
+  var extra = {a:4, b:{cc:7, dd:1}};
+  merge(base, extra, true); //{a:4, b:{bb:4, cc:7, dd:1}}
+  base; //{a:2, b:6}</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      merge: <span class="function"><span class="keyword">function</span><span class="params">(<span class="comment">/*obj1, obj2,....deepCopy*/</span>)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>unpacking arguments by hand benchmarked faster</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">var</span> l = arguments.length,
+            i = <span class="number">0</span>,
+            args = <span class="keyword">new</span> Array(l + <span class="number">1</span>);
+        <span class="keyword">for</span> (; i &lt; l; i++) args[i + <span class="number">1</span>] = arguments[i];
+
+        <span class="keyword">if</span> (l === <span class="number">0</span>) {
+          <span class="keyword">return</span> {};
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>start with empty object so a copy is created</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        args[<span class="number">0</span>] = {};
+
+        <span class="keyword">if</span> (args[args.length - <span class="number">1</span>] === <span class="literal">true</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>jquery extend requires deep copy as first arg</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          args.pop();
+          args.unshift(<span class="literal">true</span>);
+        }
+
+        <span class="keyword">return</span> $.extend.apply(<span class="literal">undefined</span>, args);
+      },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>updates base in place by copying properties of extra to it
+optionally clobber protected
+usage:
+  var base = {a:2, b:6};
+  var extra = {c:4};
+  push(base, extra); //{a:2, b:6, c:4}
+  base; //{a:2, b:6, c:4}</p>
+<p>  var base = {a:2, b:6};
+  var extra = {b: 4 c:4};
+  push(base, extra, true); //Error (&quot;utils.push attempted to overwrite &#39;b&#39; while running in protected mode&quot;)
+  base; //{a:2, b:6}</p>
+<p>objects with the same key will merge recursively when protect is false
+eg:
+var base = {a:16, b:{bb:4, cc:10}};
+var extra = {b:{cc:25, dd:19}, c:5};
+push(base, extra); //{a:16, {bb:4, cc:25, dd:19}, c:5}</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      push: <span class="function"><span class="keyword">function</span><span class="params">(base, extra, protect)</span> {</span>
+        <span class="keyword">if</span> (base) {
+          Object.keys(extra || {}).forEach(<span class="function"><span class="keyword">function</span><span class="params">(key)</span> {</span>
+            <span class="keyword">if</span> (base[key] &amp;&amp; protect) {
+              <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">'utils.push attempted to overwrite "'</span> + key + <span class="string">'" while running in protected mode'</span>);
+            }
+
+            <span class="keyword">if</span> (<span class="keyword">typeof</span> base[key] == <span class="string">'object'</span> &amp;&amp; <span class="keyword">typeof</span> extra[key] == <span class="string">'object'</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>recurse</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>              <span class="keyword">this</span>.push(base[key], extra[key]);
+            } <span class="keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>no protect, so extra wins</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>              base[key] = extra[key];
+            }
+          }, <span class="keyword">this</span>);
+        }
+
+        <span class="keyword">return</span> base;
+      },
+
+      isEnumerable: <span class="function"><span class="keyword">function</span><span class="params">(obj, property)</span> {</span>
+        <span class="keyword">return</span> Object.keys(obj).indexOf(property) &gt; -<span class="number">1</span>;
+      },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>build a function from other function(s)
+utils.compose(a,b,c) -&gt; a(b(c()));
+implementation lifted from underscore.js (c) 2009-2012 Jeremy Ashkenas</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      compose: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        <span class="keyword">var</span> funcs = arguments;
+
+        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+          <span class="keyword">var</span> args = arguments;
+
+          <span class="keyword">for</span> (<span class="keyword">var</span> i = funcs.length-<span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) {
+            args = [funcs[i].apply(<span class="keyword">this</span>, args)];
+          }
+
+          <span class="keyword">return</span> args[<span class="number">0</span>];
+        };
+      },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Can only unique arrays of homogeneous primitives, e.g. an array of only strings, an array of only booleans, or an array of only numerics</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      uniqueArray: <span class="function"><span class="keyword">function</span><span class="params">(array)</span> {</span>
+        <span class="keyword">var</span> u = {}, a = [];
+
+        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, l = array.length; i &lt; l; ++i) {
+          <span class="keyword">if</span> (u.hasOwnProperty(array[i])) {
+            <span class="keyword">continue</span>;
+          }
+
+          a.push(array[i]);
+          u[array[i]] = <span class="number">1</span>;
+        }
+
+        <span class="keyword">return</span> a;
+      },
+
+      debounce: <span class="function"><span class="keyword">function</span><span class="params">(func, wait, immediate)</span> {</span>
+        <span class="keyword">if</span> (<span class="keyword">typeof</span> wait != <span class="string">'number'</span>) {
+          wait = DEFAULT_INTERVAL;
+        }
+
+        <span class="keyword">var</span> timeout, result;
+
+        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+          <span class="keyword">var</span> context = <span class="keyword">this</span>, args = arguments;
+          <span class="keyword">var</span> later = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+            timeout = <span class="literal">null</span>;
+            <span class="keyword">if</span> (!immediate) {
+              result = func.apply(context, args);
+            }
+          };
+          <span class="keyword">var</span> callNow = immediate &amp;&amp; !timeout;
+
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+
+          <span class="keyword">if</span> (callNow) {
+            result = func.apply(context, args);
+          }
+
+          <span class="keyword">return</span> result;
+        };
+      },
+
+      throttle: <span class="function"><span class="keyword">function</span><span class="params">(func, wait)</span> {</span>
+        <span class="keyword">if</span> (<span class="keyword">typeof</span> wait != <span class="string">'number'</span>) {
+          wait = DEFAULT_INTERVAL;
+        }
+
+        <span class="keyword">var</span> context, args, timeout, throttling, more, result;
+        <span class="keyword">var</span> whenDone = <span class="keyword">this</span>.debounce(<span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+          more = throttling = <span class="literal">false</span>;
+        }, wait);
+
+        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+          context = <span class="keyword">this</span>; args = arguments;
+          <span class="keyword">var</span> later = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+            timeout = <span class="literal">null</span>;
+            <span class="keyword">if</span> (more) {
+              result = func.apply(context, args);
+            }
+            whenDone();
+          };
+
+          <span class="keyword">if</span> (!timeout) {
+            timeout = setTimeout(later, wait);
+          }
+
+          <span class="keyword">if</span> (throttling) {
+            more = <span class="literal">true</span>;
+          } <span class="keyword">else</span> {
+            throttling = <span class="literal">true</span>;
+            result = func.apply(context, args);
+          }
+
+          whenDone();
+          <span class="keyword">return</span> result;
+        };
+      },
+
+      countThen: <span class="function"><span class="keyword">function</span><span class="params">(num, base)</span> {</span>
+        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+          <span class="keyword">if</span> (!--num) { <span class="keyword">return</span> base.apply(<span class="keyword">this</span>, arguments); }
+        };
+      },
+
+      delegate: <span class="function"><span class="keyword">function</span><span class="params">(rules)</span> {</span>
+        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">(e, data)</span> {</span>
+          <span class="keyword">var</span> target = $(e.target), parent;
+
+          Object.keys(rules).forEach(<span class="function"><span class="keyword">function</span><span class="params">(selector)</span> {</span>
+            <span class="keyword">if</span> (!e.isPropagationStopped() &amp;&amp; (parent = target.closest(selector)).length) {
+              data = data || {};
+              data.el = parent[<span class="number">0</span>];
+              <span class="keyword">return</span> rules[selector].apply(<span class="keyword">this</span>, [e, data]);
+            }
+          }, <span class="keyword">this</span>);
+        };
+      },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>ensures that a function will only be called once.
+usage:
+will only create the application once
+  var initialize = utils.once(createApplication)
+    initialize();
+    initialize();</p>
+<p>will only delete a record once
+  var myHanlder = function () {
+    $.ajax({type: &#39;DELETE&#39;, url: &#39;someurl.com&#39;, data: {id: 1}});
+  };
+  this.on(&#39;click&#39;, utils.once(myHandler));</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      once: <span class="function"><span class="keyword">function</span><span class="params">(func)</span> {</span>
+        <span class="keyword">var</span> ran, result;
+
+        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+          <span class="keyword">if</span> (ran) {
+            <span class="keyword">return</span> result;
+          }
+
+          result = func.apply(<span class="keyword">this</span>, arguments);
+          ran = <span class="literal">true</span>;
+
+          <span class="keyword">return</span> result;
+        };
+      }
+
+    };
+
+    <span class="keyword">return</span> utils;
+  }
+);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

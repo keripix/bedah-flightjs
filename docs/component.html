@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>component.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="advice.html">
+                advice.js
+              </a>
+            
+              
+              <a class="source" href="base.html">
+                base.js
+              </a>
+            
+              
+              <a class="source" href="component.html">
+                component.js
+              </a>
+            
+              
+              <a class="source" href="compose.html">
+                compose.js
+              </a>
+            
+              
+              <a class="source" href="debug.html">
+                debug.js
+              </a>
+            
+              
+              <a class="source" href="index.html">
+                index.js
+              </a>
+            
+              
+              <a class="source" href="logger.html">
+                logger.js
+              </a>
+            
+              
+              <a class="source" href="registry.html">
+                registry.js
+              </a>
+            
+              
+              <a class="source" href="utils.html">
+                utils.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>component.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>define(
+
+  [
+    <span class="string">'./advice'</span>,
+    <span class="string">'./utils'</span>,
+    <span class="string">'./compose'</span>,
+    <span class="string">'./base'</span>,
+    <span class="string">'./registry'</span>,
+    <span class="string">'./logger'</span>,
+    <span class="string">'./debug'</span>
+  ],
+
+  <span class="function"><span class="keyword">function</span><span class="params">(advice, utils, compose, withBase, registry, withLogging, debug)</span> {</span>
+    <span class="string">'use strict'</span>;
+
+    <span class="keyword">var</span> functionNameRegEx = <span class="regexp">/function (.*?)\s?\(/</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>teardown for all instances of this constructor</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">teardownAll</span><span class="params">()</span> {</span>
+      <span class="keyword">var</span> componentInfo = registry.findComponentInfo(<span class="keyword">this</span>);
+
+      componentInfo &amp;&amp; Object.keys(componentInfo.instances).forEach(<span class="function"><span class="keyword">function</span><span class="params">(k)</span> {</span>
+        <span class="keyword">var</span> info = componentInfo.instances[k];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>It&#39;s possible that a previous teardown caused another component to teardown,
+so we can&#39;t assume that the instances object is as it was.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> (info &amp;&amp; info.instance) {
+          info.instance.teardown();
+        }
+      });
+    }
+
+    <span class="function"><span class="keyword">function</span> <span class="title">checkSerializable</span><span class="params">(type, data)</span> {</span>
+      <span class="keyword">try</span> {
+        window.postMessage(data, <span class="string">'*'</span>);
+      } <span class="keyword">catch</span>(e) {
+        console.log(<span class="string">'unserializable data for event'</span>,type,<span class="string">':'</span>,data);
+        <span class="keyword">throw</span> <span class="keyword">new</span> Error(
+          [<span class="string">'The event'</span>, type, <span class="string">'on component'</span>, <span class="keyword">this</span>.toString(), <span class="string">'was triggered with non-serializable data'</span>].join(<span class="string">' '</span>)
+        );
+      }
+    }
+
+    <span class="function"><span class="keyword">function</span> <span class="title">attachTo</span><span class="params">(selector<span class="comment">/*, options args */</span>)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>unpacking arguments by hand benchmarked faster</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">var</span> l = arguments.length;
+      <span class="keyword">var</span> args = <span class="keyword">new</span> Array(l - <span class="number">1</span>);
+      <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; l; i++) args[i - <span class="number">1</span>] = arguments[i];
+
+      <span class="keyword">if</span> (!selector) {
+        <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">'Component needs to be attachTo\'d a jQuery object, native node or selector string'</span>);
+      }
+
+      <span class="keyword">var</span> options = utils.merge.apply(utils, args);
+      <span class="keyword">var</span> componentInfo = registry.findComponentInfo(<span class="keyword">this</span>);
+
+      $(selector).each(<span class="function"><span class="keyword">function</span><span class="params">(i, node)</span> {</span>
+        <span class="keyword">if</span> (componentInfo &amp;&amp; componentInfo.isAttachedTo(node)) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>already attached</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="keyword">return</span>;
+        }
+
+        (<span class="keyword">new</span> <span class="keyword">this</span>).initialize(node, options);
+      }.bind(<span class="keyword">this</span>));
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>define the constructor for a custom component type
+takes an unlimited number of mixin functions as arguments
+typical api call with 3 mixins: define(timeline, withTweetCapability, withScrollCapability);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">define</span><span class="params">(<span class="comment">/*mixins*/</span>)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>unpacking arguments by hand benchmarked faster</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">var</span> l = arguments.length;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>add three for common mixins</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">var</span> mixins = <span class="keyword">new</span> Array(l + <span class="number">3</span>);
+      <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; l; i++) mixins[i] = arguments[i];
+
+      <span class="keyword">var</span> Component = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>};
+
+      Component.toString = Component.prototype.toString = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        <span class="keyword">var</span> prettyPrintMixins = mixins.map(<span class="function"><span class="keyword">function</span><span class="params">(mixin)</span> {</span>
+          <span class="keyword">if</span> (mixin.name == <span class="literal">null</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>function name property not supported by this browser, use regex</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="keyword">var</span> m = mixin.toString().match(functionNameRegEx);
+            <span class="keyword">return</span> (m &amp;&amp; m[<span class="number">1</span>]) ? m[<span class="number">1</span>] : <span class="string">''</span>;
+          } <span class="keyword">else</span> {
+            <span class="keyword">return</span> (mixin.name != <span class="string">'withBase'</span>) ? mixin.name : <span class="string">''</span>;
+          }
+        }).filter(Boolean).join(<span class="string">', '</span>);
+        <span class="keyword">return</span> prettyPrintMixins;
+      };
+
+      <span class="keyword">if</span> (debug.enabled) {
+        Component.describe = Component.prototype.describe = Component.toString();
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>&#39;options&#39; is optional hash to be merged with &#39;defaults&#39; in the component definition</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      Component.attachTo = attachTo;
+      Component.teardownAll = teardownAll;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>prepend common mixins to supplied list, then mixin all flavors</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">if</span> (debug.enabled) {
+        mixins.unshift(withLogging);
+      }
+      mixins.unshift(withBase, advice.withAdvice, registry.withRegistration);
+      compose.mixin(Component.prototype, mixins);
+
+      <span class="keyword">return</span> Component;
+    }
+
+    define.teardownAll = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+      registry.components.slice().forEach(<span class="function"><span class="keyword">function</span><span class="params">(c)</span> {</span>
+        c.component.teardownAll();
+      });
+      registry.reset();
+    };
+
+    <span class="keyword">return</span> define;
+  }
+);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
