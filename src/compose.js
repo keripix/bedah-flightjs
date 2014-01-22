@@ -1,3 +1,6 @@
+// Module compose bertanggung jawab untuk menerapkan mixin.
+// Mixin adalah mekanisme yang digunakan oleh FlightJS untuk
+// berbagi kode dan fungsionalitas.
 define(
 
   [
