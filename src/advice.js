@@ -31,6 +31,9 @@ define(
       //   
       //     // Menerapkan `advice`. Perhatikan bahwa metode asli
       //     // menjadi parameter pertama dari `around`.
+      //     // 
+      //     // Metode yang hendak dibungkus dalam contoh di bawah
+      //     // ini, memiliki nama `announce`.
       //     this.around('announce', function(basicAnnounce) {
       //       clearThroat();
       //       basicAnnounce();
@@ -81,19 +84,53 @@ define(
         };
       },
 
+      // Menerapkan `advice` jenis `before` pada `base`.
+      // Contoh menggunakannya:
+      // 
+      // ```
+      // define(function() {
+      //   function withDrama() {
+      //     this.before('announce', function() {
+      //       clearThroat();
+      //     });
+      //   }
+
+      //   return withDrama;
+      // });
+      // ```
       before: function(base, before) {
         var beforeFn = (typeof before == 'function') ? before : before.obj[before.fnName];
         return function composedBefore() {
+          // Jalankan `advice` kita
           beforeFn.apply(this, arguments);
+          // sebelum `base` dijalankan.
           return base.apply(this, arguments);
         };
       },
 
+      // Menerapkan `advice` jenis `after` pada `base`.
+      // Contoh menggunakannya:
+      // 
+      // ```
+      // define(function() {
+      //   function withDrama() {
+      //     this.after('announce', function() {
+      //       clearThroat();
+      //     });
+      //   }
+
+      //   return withDrama;
+      // });
+      // ```
       after: function(base, after) {
         var afterFn = (typeof after == 'function') ? after : after.obj[after.fnName];
         return function composedAfter() {
+          // Jalankan `base`. Kita perlu menangkap kembalian yang diberikan
+          // oleh `base`.
           var res = (base.unbound || base).apply(this, arguments);
+          // Kemudian kita jalankan `advice`.
           afterFn.apply(this, arguments);
+          // Berikan keluaran asli ketika `base` dijalankan.
           return res;
         };
       },
