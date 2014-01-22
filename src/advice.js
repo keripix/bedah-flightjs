@@ -135,12 +135,32 @@ define(
         };
       },
 
-      // a mixin that allows other mixins to augment existing functions by adding additional
-      // code before, after or around.
+      // `withAdvice` adalah sebuah mixin. Mixin ini memungkinkan komponen
+      // non-flightJS, untuk menerapkan AOP.
+      // 
+      // Mekanisme mixin dari flightJS akan dibahas pada module `compose`.
       withAdvice: function() {
+        // *Looping* ini menambahkan metode berikut pada mixin `withAdvice`.
+        // Alhasil, `withAdvice` memperoleh metode:
+        // 
+        // - before()
+        // - after()
+        // - around()
         ['before', 'after', 'around'].forEach(function(m) {
+          // this.before
+          // this.after
+          // this.around
+          // 
+          // Parameter ketiga metode di atas sama dengan parameter
+          // dari tiga jenis advice yang telah dibahas sebelumnya,
+          // yaitu:
+          // 
+          // `base, fn`
+          // 
+          // Jadi, `method` adalah metode yang hendak dibungkus
+          // oleh advice (`fn`)
           this[m] = function(method, fn) {
-
+            // Akan dibahas pada module `compose`
             compose.unlockProperty(this, method, function() {
               if (typeof this[method] == 'function') {
                 this[method] = advice[m](this[method], fn);

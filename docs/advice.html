@@ -137,6 +137,9 @@ Cara menggunakannya:</p>
 
     // Menerapkan `advice`. Perhatikan bahwa metode asli
     // menjadi parameter pertama dari `around`.
+    // 
+    // Metode yang hendak dibungkus dalam contoh di bawah
+    // ini, memiliki nama `announce`.
     this.around(&#39;announce&#39;, function(basicAnnounce) {
       clearThroat();
       basicAnnounce();
@@ -242,23 +245,6 @@ Alhasil, <code>base</code> sudah tergantikan oleh <code>advice</code>.</p>
             
             <div class="content"><div class='highlight'><pre>          <span class="keyword">return</span> wrapped.apply(<span class="keyword">this</span>, args);
         };
-      },
-
-      before: <span class="function"><span class="keyword">function</span><span class="params">(base, before)</span> {</span>
-        <span class="keyword">var</span> beforeFn = (<span class="keyword">typeof</span> before == <span class="string">'function'</span>) ? before : before.obj[before.fnName];
-        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">composedBefore</span><span class="params">()</span> {</span>
-          beforeFn.apply(<span class="keyword">this</span>, arguments);
-          <span class="keyword">return</span> base.apply(<span class="keyword">this</span>, arguments);
-        };
-      },
-
-      after: <span class="function"><span class="keyword">function</span><span class="params">(base, after)</span> {</span>
-        <span class="keyword">var</span> afterFn = (<span class="keyword">typeof</span> after == <span class="string">'function'</span>) ? after : after.obj[after.fnName];
-        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">composedAfter</span><span class="params">()</span> {</span>
-          <span class="keyword">var</span> res = (base.unbound || base).apply(<span class="keyword">this</span>, arguments);
-          afterFn.apply(<span class="keyword">this</span>, arguments);
-          <span class="keyword">return</span> res;
-        };
       },</pre></div></div>
             
         </li>
@@ -270,16 +256,205 @@ Alhasil, <code>base</code> sudah tergantikan oleh <code>advice</code>.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
-              <p>a mixin that allows other mixins to augment existing functions by adding additional
-code before, after or around.</p>
+              <p>Menerapkan <code>advice</code> jenis <code>before</code> pada <code>base</code>.
+Contoh menggunakannya:</p>
+<pre><code>define(function() {
+  function withDrama() {
+    this.before(&#39;announce&#39;, function() {
+      clearThroat();
+    });
+  }
+
+  return withDrama;
+});
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      before: <span class="function"><span class="keyword">function</span><span class="params">(base, before)</span> {</span>
+        <span class="keyword">var</span> beforeFn = (<span class="keyword">typeof</span> before == <span class="string">'function'</span>) ? before : before.obj[before.fnName];
+        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">composedBefore</span><span class="params">()</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Jalankan <code>advice</code> kita</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      withAdvice: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-        [<span class="string">'before'</span>, <span class="string">'after'</span>, <span class="string">'around'</span>].forEach(<span class="function"><span class="keyword">function</span><span class="params">(m)</span> {</span>
-          <span class="keyword">this</span>[m] = <span class="function"><span class="keyword">function</span><span class="params">(method, fn)</span> {</span>
+            <div class="content"><div class='highlight'><pre>          beforeFn.apply(<span class="keyword">this</span>, arguments);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>sebelum <code>base</code> dijalankan.</p>
 
-            compose.unlockProperty(<span class="keyword">this</span>, method, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="keyword">return</span> base.apply(<span class="keyword">this</span>, arguments);
+        };
+      },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Menerapkan <code>advice</code> jenis <code>after</code> pada <code>base</code>.
+Contoh menggunakannya:</p>
+<pre><code>define(function() {
+  function withDrama() {
+    this.after(&#39;announce&#39;, function() {
+      clearThroat();
+    });
+  }
+
+  return withDrama;
+});
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      after: <span class="function"><span class="keyword">function</span><span class="params">(base, after)</span> {</span>
+        <span class="keyword">var</span> afterFn = (<span class="keyword">typeof</span> after == <span class="string">'function'</span>) ? after : after.obj[after.fnName];
+        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">composedAfter</span><span class="params">()</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Jalankan <code>base</code>. Kita perlu menangkap kembalian yang diberikan
+oleh <code>base</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="keyword">var</span> res = (base.unbound || base).apply(<span class="keyword">this</span>, arguments);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Kemudian kita jalankan <code>advice</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          afterFn.apply(<span class="keyword">this</span>, arguments);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Berikan keluaran asli ketika <code>base</code> dijalankan.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="keyword">return</span> res;
+        };
+      },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p><code>withAdvice</code> adalah sebuah mixin. Mixin ini memungkinkan komponen
+non-flightJS, untuk menerapkan AOP.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      withAdvice: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p><em>Looping</em> ini menambahkan metode berikut pada mixin <code>withAdvice</code>.
+Alhasil, <code>withAdvice</code> memperoleh metode:</p>
+<ul>
+<li>before()</li>
+<li>after()</li>
+<li>around()</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        [<span class="string">'before'</span>, <span class="string">'after'</span>, <span class="string">'around'</span>].forEach(<span class="function"><span class="keyword">function</span><span class="params">(m)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>this.before
+this.after
+this.around</p>
+<p>Parameter ketiga metode di atas sama dengan parameter
+dari tiga jenis advice yang telah dibahas sebelumnya,
+yaitu:</p>
+<p><code>base, fn</code></p>
+<p>Jadi, <code>method</code> adalah metode yang hendak dibungkus
+oleh advice (<code>fn</code>)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="keyword">this</span>[m] = <span class="function"><span class="keyword">function</span><span class="params">(method, fn)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Akan dibahas pada module <code>compose</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            compose.unlockProperty(<span class="keyword">this</span>, method, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
               <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="keyword">this</span>[method] == <span class="string">'function'</span>) {
                 <span class="keyword">this</span>[method] = advice[m](<span class="keyword">this</span>[method], fn);
               } <span class="keyword">else</span> {
