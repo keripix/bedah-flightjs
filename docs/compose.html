@@ -204,9 +204,23 @@ memiliki API ini. Kita akan membahas mengenai ini lebih lanjut.</p>
       Object.defineProperty(obj, prop, { writable: <span class="literal">true</span> });
       op.call(obj);
       Object.defineProperty(obj, prop, { writable: writable });
-    }
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Mengimplementasi <code>mixins</code> terhadap module <code>base</code>. <code>mixins</code> adalah
+sebuah <code>Array</code>.</p>
 
-    <span class="function"><span class="keyword">function</span> <span class="title">mixin</span><span class="params">(base, mixins)</span> {</span>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">mixin</span><span class="params">(base, mixins)</span> {</span>
       base.mixedIn = base.hasOwnProperty(<span class="string">'mixedIn'</span>) ? base.mixedIn : [];
 
       mixins.forEach(<span class="function"><span class="keyword">function</span><span class="params">(mixin)</span> {</span>

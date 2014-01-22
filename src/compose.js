@@ -91,6 +91,8 @@ define(
       Object.defineProperty(obj, prop, { writable: writable });
     }
 
+    // Mengimplementasi `mixins` terhadap module `base`. `mixins` adalah
+    // sebuah `Array`.
     function mixin(base, mixins) {
       base.mixedIn = base.hasOwnProperty('mixedIn') ? base.mixedIn : [];
 
