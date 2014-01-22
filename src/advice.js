@@ -4,11 +4,25 @@ define(
     './compose'
   ],
 
+  // `compose` menyediakan API untuk menerapkan Aspect Oriented Programming
+  // (AOP) di FlightJS.
+  // 
+  // Secara sederhana, AOP adalah konsep dimana kita dapat *membungkus* suatu
+  // metode tertentu. Jadi, kita dapat menjalankan suatu metode lain ketika
+  // metode yang dibungkus tadi hendak dijalankan, telah dijalankan, ataupun
+  // keduanya. *Metode lain* ini dinamakan `advice`.
+  // 
+  // Berikut adalah beberapa mekanisme AOP yang disediakan oleh FlightJS:
+  // 
+  // - `around`: advice dijalankan sebelum dan sesudah metode dijalankan
+  // - `before`: advice dijalankan sebelum metode dijalankan
+  // - `after`: advice dijalankan sesudah metode dijalankan
   function(compose) {
     'use strict';
 
     var advice = {
 
+      // Menjalankan `wrapped` sebelum dan sesudah fungsi `base` dijalankan.
       around: function(base, wrapped) {
         return function composedAround() {
           // unpacking arguments by hand benchmarked faster

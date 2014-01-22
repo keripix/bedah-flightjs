@@ -1,6 +1,6 @@
 # Bedah FlightJS
 
-Repositori ini bertujuan untuk memberi komentar terhadap tiap API yang disediakan oleh FlightJS. Tetapi saya tidaklah mengaku sebagai ahli FlightJS. Ini adalah komentar saya pribadi terhadap kode FlightJS.
+Repositori ini bertujuan untuk memberi komentar terhadap tiap API yang disediakan oleh [FlightJS](http://github.com/flightjs/flight). Tetapi saya tidaklah mengaku sebagai ahli FlightJS. Ini adalah komentar saya pribadi terhadap kode FlightJS.
 
 Sehingga, saya sangatlah terbuka bila Anda mau meluruskan komentar saya yang keliru bila Anda menemukannya. Ataupun bila ada komentar yang kurang jelas, saya berharap Anda mau memberitahukannya.
 
