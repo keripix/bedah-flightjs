@@ -68,8 +68,13 @@ define(
           // Jangan lupa untuk memasang `scope` dari `base` kepada metode yang
           // menjalankan `around` ini.
           args[0] = base.bind(this);
+
+          // Kita tetap akan memberikan akses terhadap parameter asli
+          // `base` sehingga dapat kita akses di `advice`.
           for (; i < l; i++) args[i + 1] = arguments[i];
 
+          // Setelah semuanya telah dipersiapkan, kita kembalikan `advice` ini.
+          // Alhasil, `base` sudah tergantikan oleh `advice`.
           return wrapped.apply(this, args);
         };
       },
