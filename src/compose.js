@@ -1,6 +1,34 @@
 // Module compose bertanggung jawab untuk menerapkan mixin.
 // Mixin adalah mekanisme yang digunakan oleh FlightJS untuk
 // berbagi kode dan fungsionalitas.
+// 
+// Misal Anda memiliki kode berikut:
+// 
+// ```javascript
+// function withGerak() {
+//   this.jalan = function() {
+//   }
+// }
+// ```
+// 
+// Kemudian kita memiliki module berikut.
+// 
+// ```javascript
+// function manusia() {
+// }
+// ```
+// 
+// Kita ingin module `manusia` di atas dapat bergerak. Kita dapat
+// memanfaatkan mixin untuk melakukannya:
+// 
+// ```javascript
+// function manusia() {
+//   compose.mixin(this, [withGerak]);
+// }
+// ```
+// 
+// Dengan memanfaatkan `compose.mixin`, kita telah memasang mixin
+// `withGerak` pada `manusia`.
 define(
 
   [
