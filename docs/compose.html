@@ -248,8 +248,22 @@ digunakan untuk merekam <code>mixin</code> yang telah disuntikkan ke
             </div>
             
             <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> (base.mixedIn.indexOf(mixin) == -<span class="number">1</span>) {
-          setPropertyWritability(base, <span class="literal">false</span>);
-          mixin.call(base);
+          setPropertyWritability(base, <span class="literal">false</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Inilah cara memasang mixin ala FlightJS.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          mixin.call(base);
           base.mixedIn.push(mixin);
         }
       });
@@ -260,11 +274,11 @@ digunakan untuk merekam <code>mixin</code> yang telah disuntikkan ke
         </li>
         
         
-        <li id="section-7">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>Mempublikasikan API agar dapat dimanfaatkan module lain</p>
 

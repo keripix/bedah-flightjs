@@ -113,6 +113,7 @@ define(
         // `base`. Ia adalah sebuah `Array`.
         if (base.mixedIn.indexOf(mixin) == -1) {
           setPropertyWritability(base, false);
+          // Inilah cara memasang mixin ala FlightJS.
           mixin.call(base);
           base.mixedIn.push(mixin);
         }
