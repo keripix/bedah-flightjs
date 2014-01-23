@@ -71,16 +71,27 @@ define(
 
       var props = Object.create(null);
 
+      // Baca tiap property yang dimiliki oleh `obj`.
       Object.keys(obj).forEach(
         function (key) {
+          // Apakah property ini termasuk property yang
+          // boleh diubah nilai `writable` nya?
+          // 
+          // Bila, ia maka kita ubah
           if (dontLock.indexOf(key) < 0) {
+            // Ambil nilai *object descriptor*
             var desc = Object.getOwnPropertyDescriptor(obj, key);
+            // Ubah nilai untuk `writable`.
             desc.writable = isWritable;
+            // Rekam *object descriptor* yang baru
             props[key] = desc;
           }
         }
       );
 
+      // Setelah *looping* di atas dijalankan, kita perlu
+      // memasang *object descriptor* yang baru yang dimiliki
+      // oleh `obj`.
       Object.defineProperties(obj, props);
     }
 
