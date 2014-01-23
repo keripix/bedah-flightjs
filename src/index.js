@@ -29,17 +29,17 @@ define(
 
     // Mempublikasikan API internal terhadap konsumen
     return {
-      // `advice`: Menyediakan API untuk Aspect Oriented Programming
+      // [advice](advice.html): Menyediakan API untuk Aspect Oriented Programming
       advice: advice,
-      // `component`: Menyediakan API untuk mendefinisikan komponen
+      // [component](component.html): Menyediakan API untuk mendefinisikan komponen
       component: component,
-      // `compose`: Menyediakan API untuk menerapkan mixin
+      // [compose](compose.html): Menyediakan API untuk menerapkan mixin
       compose: compose,
-      // `logger`: Menyediakan API untuk logging
+      // [logger](logger.html): Menyediakan API untuk logging
       logger: logger,
-      // `registry`: Menyediakan API untuk registerasi komponen
+      // [registry](registry.html): Menyediakan API untuk registerasi komponen
       registry: registry,
-      // `utils`: Menyediakan API untuk membantu komponen
+      // [utils](utils.html): Menyediakan API untuk membantu komponen
       utils: utils
     };
 
