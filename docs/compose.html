@@ -290,10 +290,7 @@ tergantikan oleh metode <code>tambah</code> pada <code>mixin</code>.</p>
             <div class="content"><div class='highlight'><pre>          mixin.call(base);
           base.mixedIn.push(mixin);
         }
-      });
-
-      setPropertyWritability(base, <span class="literal">true</span>);
-    }</pre></div></div>
+      });</pre></div></div>
             
         </li>
         
@@ -303,6 +300,25 @@ tergantikan oleh metode <code>tambah</code> pada <code>mixin</code>.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Setelah mixin diterapkan, kita pasang kembali
+nilai <em>objek descriptor</em> <code>writable</code> menjadi <code>true</code>.</p>
+<p>Salah satu konsekuensi dari <code>writable</code> ini adalah
+kita dapat memasang <code>advice</code>. Silahkan lihat <a href="advice.html">module advice</a></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      setPropertyWritability(base, <span class="literal">true</span>);
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
               <p>Mempublikasikan API agar dapat dimanfaatkan module lain</p>
 

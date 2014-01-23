@@ -132,6 +132,11 @@ define(
         }
       });
 
+      // Setelah mixin diterapkan, kita pasang kembali
+      // nilai *objek descriptor* `writable` menjadi `true`.
+      // 
+      // Salah satu konsekuensi dari `writable` ini adalah
+      // kita dapat memasang `advice`. Silahkan lihat [module advice](advice.html)
       setPropertyWritability(base, true);
     }
 
