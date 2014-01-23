@@ -46,8 +46,10 @@ define(
       // });
       // ```
       around: function(base, wrapped) {
+
         // Metode yang dikembalikan ini mengganti metode asli, `base`.
         return function composedAround() {
+
           // Kita tidak tahu, `base()` memiliki parameter apa saja.
           // Oleh karena itu, kita perlu mendeteksinya terlebih dahulu.
           var i = 0, l = arguments.length, args = new Array(l + 1);
@@ -102,8 +104,10 @@ define(
       before: function(base, before) {
         var beforeFn = (typeof before == 'function') ? before : before.obj[before.fnName];
         return function composedBefore() {
+
           // Jalankan `advice` kita
           beforeFn.apply(this, arguments);
+
           // sebelum `base` dijalankan.
           return base.apply(this, arguments);
         };
@@ -126,11 +130,14 @@ define(
       after: function(base, after) {
         var afterFn = (typeof after == 'function') ? after : after.obj[after.fnName];
         return function composedAfter() {
+
           // Jalankan `base`. Kita perlu menangkap kembalian yang diberikan
           // oleh `base`.
           var res = (base.unbound || base).apply(this, arguments);
+
           // Kemudian kita jalankan `advice`.
           afterFn.apply(this, arguments);
+
           // Berikan keluaran asli ketika `base` dijalankan.
           return res;
         };
@@ -141,6 +148,7 @@ define(
       // 
       // Mekanisme mixin dari flightJS akan dibahas pada module `compose`.
       withAdvice: function() {
+
         // *Looping* ini menambahkan metode berikut pada mixin `withAdvice`.
         // Alhasil, `withAdvice` memperoleh metode:
         // 
@@ -148,6 +156,7 @@ define(
         // - after()
         // - around()
         ['before', 'after', 'around'].forEach(function(m) {
+
           // this.before
           // this.after
           // this.around
@@ -161,6 +170,7 @@ define(
           // Jadi, `method` adalah metode yang hendak dibungkus
           // oleh advice (`fn`)
           this[m] = function(method, fn) {
+            
             // Silahkan melihat [penjelasan ini](compose.html#section-17)
             // untuk memahami apa kegunaan dari metode
             // `unlockProperty` berikut.

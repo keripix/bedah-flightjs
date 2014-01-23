@@ -45,6 +45,7 @@ define(
 
     //enumerables are shims - getOwnPropertyDescriptor shim doesn't work
     var canWriteProtect = debug.enabled && !utils.isEnumerable(Object, 'getOwnPropertyDescriptor');
+
     //whitelist of unlockable property names
     var dontLock = ['mixedIn'];
 
@@ -74,15 +75,19 @@ define(
       // Baca tiap property yang dimiliki oleh `obj`.
       Object.keys(obj).forEach(
         function (key) {
+
           // Apakah property ini termasuk property yang
           // boleh diubah nilai `writable` nya?
           // 
           // Bila, ia maka kita ubah
           if (dontLock.indexOf(key) < 0) {
+
             // Ambil nilai *object descriptor*
             var desc = Object.getOwnPropertyDescriptor(obj, key);
+
             // Ubah nilai untuk `writable`.
             desc.writable = isWritable;
+
             // Rekam *object descriptor* yang baru
             props[key] = desc;
           }
@@ -104,6 +109,7 @@ define(
       var writable;
 
       if (!canWriteProtect || !obj.hasOwnProperty(prop)) {
+
         // Bila `obj` tidak memiliki properti `prop`, maka kita
         // tidak perlu melakukan apa-apa terhadap `obj[prop]`.
         // 
@@ -124,6 +130,7 @@ define(
       // Kemudian kita kembalikan nilai `writable` milik `obj[prop]`
       // ke kondisi semula.
       Object.defineProperty(obj, prop, { writable: writable });
+
       // Mengapa kita melakukan semua langkah di atas? Mari kita
       // lihat contoh dar [advice](advice.html#section-16):
       // ```
@@ -202,8 +209,10 @@ define(
       // Bila kita tidak menjalankan `unlockProperty`, maka ada kemungkinan
       // metode yang hendak dibajak tidak bisa diberi nilai baru (tidak bisa
       // dibajak).
+      // ------------------------------------------------
       
     }
+
 
     // Mengimplementasi `mixins` terhadap module `base`. `mixins` adalah
     // sebuah `Array`.
@@ -217,6 +226,7 @@ define(
       base.mixedIn = base.hasOwnProperty('mixedIn') ? base.mixedIn : [];
 
       mixins.forEach(function(mixin) {
+
         // Kita perlu mematikan bahwa `mixin` dengan nama yang sama
         // tidak ditambahkan lagi ke `base`, bila sebelumnya, nama
         // `mixin` tersebut telah digunakan.
@@ -226,6 +236,7 @@ define(
         // digunakan untuk merekam `mixin` yang telah disuntikkan ke
         // `base`. Ia adalah sebuah `Array`.
         if (base.mixedIn.indexOf(mixin) == -1) {
+
           // Sebelum mixin di tambahkan, kita ingin menjaga
           // agar metode pada `mixin` tidak menindih metode pada
           // `base` bila keduanya memiliki nama yang sama.
@@ -240,6 +251,7 @@ define(
           // maka metode `tambah` pada `base` tidak akan
           // tergantikan oleh metode `tambah` pada `mixin`.
           setPropertyWritability(base, false);
+
           // Inilah cara memasang mixin ala FlightJS.
           mixin.call(base);
           base.mixedIn.push(mixin);
