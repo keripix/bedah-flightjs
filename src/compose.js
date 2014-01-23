@@ -151,6 +151,57 @@ define(
       // - `before`
       // - `after`
       // - `around`
+      // 
+      // Ketiga API di atas akan melakukan *pembajakan* terhadap
+      // metode yang dimiliki oleh suatu objek. Misal kita memiliki
+      // komponen berikut
+      // 
+      // ```
+      // function manusia() {
+      //    
+      //    this.gerak = function() {
+      //      this.posisi++;
+      //    };
+      //    
+      // }
+      // ```
+      // 
+      // Kemudian kita ingin menambahkan sebuah `advice` bertipekan
+      // `after` pada metode `gerak` di atas. Maka caranya adalah:
+      // 
+      // ```
+      // function manusia() {
+      //    // memasang advice jenis after
+      //    this.after('gerak', function() {
+      //      this.lompat = 1;
+      //    });
+      // }
+      // ```
+      // 
+      // Pasca `this.after` dijalankan, nilai dari `this.gerak`
+      // tidak lagi sama dengan nilai ketika ia pertama kali
+      // didefinisikan:
+      // 
+      // ```
+      // function() {
+      //    this.posisi++;
+      // }
+      // ```
+      // 
+      // Tetapi, nilai `this.gerak` sudah dibajak oleh `this.after`,
+      // sehingga ketika `this.gerak` dijalankan, ia pertama-tama
+      // menjalankan metode asilnya, setelah itu dia menjalankan
+      // `advice` yang telah dipasangkan oleh `this.after` di atas.
+      // 
+      // Agar tiga API dari `withAdvice` (yaitu `after`, `before`, dan
+      // `around`) dapat berjalan, maka ia perlu untuk melakukan
+      // `unlock` terhadap metode `gerak`. Dan inilah guna dari metode
+      // `unlockProperty` di atas. Ia memungkinkan metode yang hendak
+      // dibajak untuk diberi nilai baru (writable).
+      // 
+      // Bila kita tidak menjalankan `unlockProperty`, maka ada kemungkinan
+      // metode yang hendak dibajak tidak bisa diberi nilai baru (tidak bisa
+      // dibajak).
       
     }
 

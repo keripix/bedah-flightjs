@@ -413,7 +413,50 @@ lihat contoh dar <a href="advice.html#section-16">advice</a>:</p>
     };
   }, this);
 }
-</code></pre>
+</code></pre><p>Kita perlu mengingat bahwa module <code>advice</code> memiliki tiga
+API:</p>
+<ul>
+<li><code>before</code></li>
+<li><code>after</code></li>
+<li><code>around</code></li>
+</ul>
+<p>Ketiga API di atas akan melakukan <em>pembajakan</em> terhadap
+metode yang dimiliki oleh suatu objek. Misal kita memiliki
+komponen berikut</p>
+<pre><code>function manusia() {
+
+   this.gerak = function() {
+     this.posisi++;
+   };
+
+}
+</code></pre><p>Kemudian kita ingin menambahkan sebuah <code>advice</code> bertipekan
+<code>after</code> pada metode <code>gerak</code> di atas. Maka caranya adalah:</p>
+<pre><code>function manusia() {
+   // memasang advice jenis after
+   this.after(&#39;gerak&#39;, function() {
+     this.lompat = 1;
+   });
+}
+</code></pre><p>Pasca <code>this.after</code> dijalankan, nilai dari <code>this.gerak</code>
+tidak lagi sama dengan nilai ketika ia pertama kali
+didefinisikan:</p>
+<pre><code>function() {
+   this.posisi++;
+}
+</code></pre><p>Tetapi, nilai <code>this.gerak</code> sudah dibajak oleh <code>this.after</code>,
+sehingga ketika <code>this.gerak</code> dijalankan, ia pertama-tama
+menjalankan metode asilnya, setelah itu dia menjalankan
+<code>advice</code> yang telah dipasangkan oleh <code>this.after</code> di atas.</p>
+<p>Agar tiga API dari <code>withAdvice</code> (yaitu <code>after</code>, <code>before</code>, dan
+<code>around</code>) dapat berjalan, maka ia perlu untuk melakukan
+<code>unlock</code> terhadap metode <code>gerak</code>. Dan inilah guna dari metode
+<code>unlockProperty</code> di atas. Ia memungkinkan metode yang hendak
+dibajak untuk diberi nilai baru (writable).</p>
+<p>Bila kita tidak menjalankan <code>unlockProperty</code>, maka ada kemungkinan
+metode yang hendak dibajak tidak bisa diberi nilai baru (tidak bisa
+dibajak).</p>
+
             </div>
             
             <div class="content"><div class='highlight'><pre>      
