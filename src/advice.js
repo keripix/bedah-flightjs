@@ -161,7 +161,9 @@ define(
           // Jadi, `method` adalah metode yang hendak dibungkus
           // oleh advice (`fn`)
           this[m] = function(method, fn) {
-            // Akan dibahas pada module `compose`
+            // Silahkan melihat [penjelasan ini](compose.html#section-17)
+            // untuk memahami apa kegunaan dari metode
+            // `unlockProperty` berikut.
             compose.unlockProperty(this, method, function() {
               if (typeof this[method] == 'function') {
                 this[method] = advice[m](this[method], fn);
