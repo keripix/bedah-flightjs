@@ -247,8 +247,7 @@ digunakan untuk merekam <code>mixin</code> yang telah disuntikkan ke
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> (base.mixedIn.indexOf(mixin) == -<span class="number">1</span>) {
-          setPropertyWritability(base, <span class="literal">false</span>);</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> (base.mixedIn.indexOf(mixin) == -<span class="number">1</span>) {</pre></div></div>
             
         </li>
         
@@ -258,6 +257,31 @@ digunakan untuk merekam <code>mixin</code> yang telah disuntikkan ke
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Sebelum mixin di tambahkan, kita ingin menjaga
+agar metode pada <code>mixin</code> tidak menindih metode pada
+<code>base</code> bila keduanya memiliki nama yang sama.</p>
+<p>Caranya adalah dengan memberi nilai <code>false</code>
+pada <em>property descriptor</em> <code>writable</code> untuk tiap
+property pada <code>base</code>. Dengan demikian, nilai
+dari tiap property tersebut tidak dapat diubah.</p>
+<p>Jadi, bila pada <code>base</code> terdapat metode <code>tambah</code>,
+dan pada <code>mixin</code> juga terdapat metode <code>tambah</code>,
+maka metode <code>tambah</code> pada <code>base</code> tidak akan
+tergantikan oleh metode <code>tambah</code> pada <code>mixin</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          setPropertyWritability(base, <span class="literal">false</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>Inilah cara memasang mixin ala FlightJS.</p>
 
@@ -274,11 +298,11 @@ digunakan untuk merekam <code>mixin</code> yang telah disuntikkan ke
         </li>
         
         
-        <li id="section-8">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>Mempublikasikan API agar dapat dimanfaatkan module lain</p>
 

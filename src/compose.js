@@ -112,6 +112,19 @@ define(
         // digunakan untuk merekam `mixin` yang telah disuntikkan ke
         // `base`. Ia adalah sebuah `Array`.
         if (base.mixedIn.indexOf(mixin) == -1) {
+          // Sebelum mixin di tambahkan, kita ingin menjaga
+          // agar metode pada `mixin` tidak menindih metode pada
+          // `base` bila keduanya memiliki nama yang sama.
+          // 
+          // Caranya adalah dengan memberi nilai `false`
+          // pada *property descriptor* `writable` untuk tiap
+          // property pada `base`. Dengan demikian, nilai
+          // dari tiap property tersebut tidak dapat diubah.
+          // 
+          // Jadi, bila pada `base` terdapat metode `tambah`,
+          // dan pada `mixin` juga terdapat metode `tambah`,
+          // maka metode `tambah` pada `base` tidak akan
+          // tergantikan oleh metode `tambah` pada `mixin`.
           setPropertyWritability(base, false);
           // Inilah cara memasang mixin ala FlightJS.
           mixin.call(base);
