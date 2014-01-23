@@ -209,10 +209,9 @@ define(
       // Bila kita tidak menjalankan `unlockProperty`, maka ada kemungkinan
       // metode yang hendak dibajak tidak bisa diberi nilai baru (tidak bisa
       // dibajak).
-      // ------------------------------------------------
-      
+      //
+      // +++++++++++++++++++++++
     }
-
 
     // Mengimplementasi `mixins` terhadap module `base`. `mixins` adalah
     // sebuah `Array`.
