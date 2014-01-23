@@ -95,18 +95,63 @@ define(
       Object.defineProperties(obj, props);
     }
 
+    // Metode ini bertugas untuk mengubah `obj[prop]` menjadi
+    // `writable`. Kemudian, `op` akan di *mixin* ke dalam `obj`.
+    // 
+    // Salah satu pengguna dari metode ini adalah mixin `withAdvice`
+    // pada module [advice](advice.html#section-16)
     function unlockProperty(obj, prop, op) {
       var writable;
 
       if (!canWriteProtect || !obj.hasOwnProperty(prop)) {
+        // Bila `obj` tidak memiliki properti `prop`, maka kita
+        // tidak perlu melakukan apa-apa terhadap `obj[prop]`.
+        // 
+        // Namun kita tetap perlu me-*mixin*-kan `op` pada `obj`.
         op.call(obj);
         return;
       }
 
+      // Pertama, kita ingin membuat `obj[prop]` dapat diubah
+      // nilainya.
       writable = Object.getOwnPropertyDescriptor(obj, prop).writable;
       Object.defineProperty(obj, prop, { writable: true });
+
+      // Karena sekarang obj[prop] dapat diubah, maka kita pasang
+      // *mixin* `op` pada `obj`.
       op.call(obj);
+
+      // Kemudian kita kembalikan nilai `writable` milik `obj[prop]`
+      // ke kondisi semula.
       Object.defineProperty(obj, prop, { writable: writable });
+      // Mengapa kita melakukan semua langkah di atas? Mari kita
+      // lihat contoh dar [advice](advice.html#section-16):
+      // ```
+      // withAdvice: function() {
+      //   ['before', 'after', 'around'].forEach(function(m) {
+      //     this[m] = function(method, fn) {
+      //       compose.unlockProperty(this, method, function() {
+      //         if (typeof this[method] == 'function') {
+      //           this[method] = advice[m](this[method], fn);
+      //         } else {
+      //           this[method] = fn;
+      //         }
+
+      //         return this[method];
+      //       });
+
+      //     };
+      //   }, this);
+      // }
+      // ```
+      //   
+      // Kita perlu mengingat bahwa module `advice` memiliki tiga
+      // API:
+      // 
+      // - `before`
+      // - `after`
+      // - `around`
+      
     }
 
     // Mengimplementasi `mixins` terhadap module `base`. `mixins` adalah

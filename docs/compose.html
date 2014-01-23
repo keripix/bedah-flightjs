@@ -170,40 +170,6 @@ memiliki API ini. Kita akan membahas mengenai ini lebih lanjut.</p>
       } <span class="keyword">catch</span>(e) {
         canWriteProtect = <span class="literal">false</span>;
       }
-    }
-
-    <span class="function"><span class="keyword">function</span> <span class="title">setPropertyWritability</span><span class="params">(obj, isWritable)</span> {</span>
-      <span class="keyword">if</span> (!canWriteProtect) {
-        <span class="keyword">return</span>;
-      }
-
-      <span class="keyword">var</span> props = Object.create(<span class="literal">null</span>);
-
-      Object.keys(obj).forEach(
-        <span class="function"><span class="keyword">function</span> <span class="params">(key)</span> {</span>
-          <span class="keyword">if</span> (dontLock.indexOf(key) &lt; <span class="number">0</span>) {
-            <span class="keyword">var</span> desc = Object.getOwnPropertyDescriptor(obj, key);
-            desc.writable = isWritable;
-            props[key] = desc;
-          }
-        }
-      );
-
-      Object.defineProperties(obj, props);
-    }
-
-    <span class="function"><span class="keyword">function</span> <span class="title">unlockProperty</span><span class="params">(obj, prop, op)</span> {</span>
-      <span class="keyword">var</span> writable;
-
-      <span class="keyword">if</span> (!canWriteProtect || !obj.hasOwnProperty(prop)) {
-        op.call(obj);
-        <span class="keyword">return</span>;
-      }
-
-      writable = Object.getOwnPropertyDescriptor(obj, prop).writable;
-      Object.defineProperty(obj, prop, { writable: <span class="literal">true</span> });
-      op.call(obj);
-      Object.defineProperty(obj, prop, { writable: writable });
     }</pre></div></div>
             
         </li>
@@ -214,6 +180,253 @@ memiliki API ini. Kita akan membahas mengenai ini lebih lanjut.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Metode ini memungkinkan kita untuk mengubah nilai
+<em>object descriptor</em> <code>writable</code> yang dimiliki oleh <code>obj</code>.
+Dengan menentukan nilai <code>writable</code> tadi, kita dapat
+menentukan apakah nilai dari properti yang dimiliki
+oleh <code>obj</code> dapat diubah atau tidak. Ketentuan tersebut
+tergantung pada nilai <code>isWritable</code> yang bertipekan
+<code>Boolean</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">setPropertyWritability</span><span class="params">(obj, isWritable)</span> {</span>
+      <span class="keyword">if</span> (!canWriteProtect) {
+        <span class="keyword">return</span>;
+      }
+
+      <span class="keyword">var</span> props = Object.create(<span class="literal">null</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Baca tiap property yang dimiliki oleh <code>obj</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      Object.keys(obj).forEach(
+        <span class="function"><span class="keyword">function</span> <span class="params">(key)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Apakah property ini termasuk property yang
+boleh diubah nilai <code>writable</code> nya?</p>
+<p>Bila, ia maka kita ubah</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="keyword">if</span> (dontLock.indexOf(key) &lt; <span class="number">0</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Ambil nilai <em>object descriptor</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="keyword">var</span> desc = Object.getOwnPropertyDescriptor(obj, key);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Ubah nilai untuk <code>writable</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            desc.writable = isWritable;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Rekam <em>object descriptor</em> yang baru</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            props[key] = desc;
+          }
+        }
+      );</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Setelah <em>looping</em> di atas dijalankan, kita perlu
+memasang <em>object descriptor</em> yang baru yang dimiliki
+oleh <code>obj</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      Object.defineProperties(obj, props);
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Metode ini bertugas untuk mengubah <code>obj[prop]</code> menjadi
+<code>writable</code>. Kemudian, <code>op</code> akan di <em>mixin</em> ke dalam <code>obj</code>.</p>
+<p>Salah satu pengguna dari metode ini adalah mixin <code>withAdvice</code>
+pada module <a href="advice.html#section-16">advice</a></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">unlockProperty</span><span class="params">(obj, prop, op)</span> {</span>
+      <span class="keyword">var</span> writable;
+
+      <span class="keyword">if</span> (!canWriteProtect || !obj.hasOwnProperty(prop)) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Bila <code>obj</code> tidak memiliki properti <code>prop</code>, maka kita
+tidak perlu melakukan apa-apa terhadap <code>obj[prop]</code>.</p>
+<p>Namun kita tetap perlu me-<em>mixin</em>-kan <code>op</code> pada <code>obj</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        op.call(obj);
+        <span class="keyword">return</span>;
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Pertama, kita ingin membuat <code>obj[prop]</code> dapat diubah
+nilainya.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      writable = Object.getOwnPropertyDescriptor(obj, prop).writable;
+      Object.defineProperty(obj, prop, { writable: <span class="literal">true</span> });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Karena sekarang obj[prop] dapat diubah, maka kita pasang
+<em>mixin</em> <code>op</code> pada <code>obj</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      op.call(obj);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Kemudian kita kembalikan nilai <code>writable</code> milik <code>obj[prop]</code>
+ke kondisi semula.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      Object.defineProperty(obj, prop, { writable: writable });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Mengapa kita melakukan semua langkah di atas? Mari kita
+lihat contoh dar <a href="advice.html#section-16">advice</a>:</p>
+<pre><code>withAdvice: function() {
+  [&#39;before&#39;, &#39;after&#39;, &#39;around&#39;].forEach(function(m) {
+    this[m] = function(method, fn) {
+      compose.unlockProperty(this, method, function() {
+        if (typeof this[method] == &#39;function&#39;) {
+          this[method] = advice[m](this[method], fn);
+        } else {
+          this[method] = fn;
+        }
+
+        return this[method];
+      });
+
+    };
+  }, this);
+}
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p>Mengimplementasi <code>mixins</code> terhadap module <code>base</code>. <code>mixins</code> adalah
 sebuah <code>Array</code>.</p>
@@ -231,11 +444,11 @@ sebuah <code>Array</code>.</p>
         </li>
         
         
-        <li id="section-6">
+        <li id="section-19">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <p>Kita perlu mematikan bahwa <code>mixin</code> dengan nama yang sama
 tidak ditambahkan lagi ke <code>base</code>, bila sebelumnya, nama
@@ -252,11 +465,11 @@ digunakan untuk merekam <code>mixin</code> yang telah disuntikkan ke
         </li>
         
         
-        <li id="section-7">
+        <li id="section-20">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <p>Sebelum mixin di tambahkan, kita ingin menjaga
 agar metode pada <code>mixin</code> tidak menindih metode pada
@@ -277,11 +490,11 @@ tergantikan oleh metode <code>tambah</code> pada <code>mixin</code>.</p>
         </li>
         
         
-        <li id="section-8">
+        <li id="section-21">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <p>Inilah cara memasang mixin ala FlightJS.</p>
 
@@ -295,11 +508,11 @@ tergantikan oleh metode <code>tambah</code> pada <code>mixin</code>.</p>
         </li>
         
         
-        <li id="section-9">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               <p>Setelah mixin diterapkan, kita pasang kembali
 nilai <em>objek descriptor</em> <code>writable</code> menjadi <code>true</code>.</p>
@@ -314,11 +527,11 @@ kita dapat memasang <code>advice</code>. Silahkan lihat <a href="advice.html">mo
         </li>
         
         
-        <li id="section-10">
+        <li id="section-23">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <p>Mempublikasikan API agar dapat dimanfaatkan module lain</p>
 
