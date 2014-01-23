@@ -57,6 +57,13 @@ define(
       }
     }
 
+    // Metode ini memungkinkan kita untuk mengubah nilai
+    // *object descriptor* `writable` yang dimiliki oleh `obj`.
+    // Dengan menentukan nilai `writable` tadi, kita dapat
+    // menentukan apakah nilai dari properti yang dimiliki
+    // oleh `obj` dapat diubah atau tidak. Ketentuan tersebut
+    // tergantung pada nilai `isWritable` yang bertipekan
+    // `Boolean`.
     function setPropertyWritability(obj, isWritable) {
       if (!canWriteProtect) {
         return;
