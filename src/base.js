@@ -105,11 +105,19 @@ define(
           data = lastArg;
         }
 
+        // Bila bentu event seperti *Cara Pertama* di atas.
         if (lastIndex == 1) {
+
+          // element dimana event akan dibangkitkan
           $element = $(arguments[0]);
+          // yang akan menjadi event data
           event = arguments[1];
         } else {
+
+          // element yang akan membangkitkan event ini adalah
+          // element dimana komponen diinisiasi
           $element = this.$node;
+          // yang akan menjadi event data
           event = arguments[0];
         }
 
@@ -121,6 +129,8 @@ define(
         type = event.type || event;
 
         if (debug.enabled && window.postMessage) {
+          // memeriksa apakah *event data* berupa objek
+          // atau tidak
           checkSerializable.call(this, type, data);
         }
 
@@ -128,8 +138,10 @@ define(
           data = $.extend(true, {}, this.attr.eventData, data);
         }
 
+        // Mempublikasikan event
         $element.trigger((event || type), data);
 
+        // Jalankan default function
         if (defaultFn && !event.isDefaultPrevented()) {
           (this[defaultFn] || defaultFn).call(this);
         }
