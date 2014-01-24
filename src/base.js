@@ -97,6 +97,9 @@ define(
       // 
       // **TODO** Jelaskan
       this.trigger = function() {
+
+        // Karena ada beberapa bentuk dalam menggunakan metode `trigger` ini,
+        // maka kita perlu mengambil `arguments` secara manual.
         var $element, type, data, event, defaultFn;
         var lastIndex = arguments.length - 1, lastArg = arguments[lastIndex];
 
@@ -149,7 +152,47 @@ define(
         return $element;
       };
 
+      // Mendengarkan event yang telah dibangkitkan oleh komponen lain
       this.on = function() {
+
+        // Karena ada beberapa bentuk dalam menggunakan metode `trigger` ini,
+        // maka kita perlu mengambil `arguments` secara manual.
+        // 
+        // Ada beberapa cara misalnya:
+        // 
+        // #### Bentuk pertama
+        // 
+        // ```javascript
+        // this.on(document, 'dataSent', this.refreshList);
+        // ```
+        // 
+        // Contoh di atas memanfaatkan metode `on` untuk mendengarkan event 
+        // `dataSent` dari `document`. Ketika event telah dibangkitkan, maka
+        // kita menjalankan metode `refreshList`.
+        // 
+        // #### Bentuk kedua
+        // 
+        // ```javascript
+        // this.on('dataSent', this.refreshList);
+        // ```
+        // 
+        // Metode di atas menandakan bahwa ketika event `dataSent` dibangkitkan
+        // pada element dimana komponen di atas diinisiasi, maka jalankan
+        // `refreshList`.
+        // 
+        // Contoh, bila komponen di atas diinisiasi dengan cara berikut:
+        // 
+        // ```
+        // contohElement.attachTo('#send-data');
+        // ```
+        // 
+        // Maka, metode `this.on('dataSent', this.refreshList);` akan mendengarkan
+        // event `dataSent` pada element `#send-data`.
+        // 
+        // #### Bentuk Ketiga
+        // 
+        // 
+        // 
         var $element, type, callback, originalCb;
         var lastIndex = arguments.length - 1, origin = arguments[lastIndex];
 
