@@ -83,7 +83,9 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <p>Module <code>base</code> menyediakan mixin dasar yang akan dimiliki oleh semua
+komponen FlightJS.</p>
+
             </div>
             
             <div class="content"><div class='highlight'><pre>define(
@@ -95,23 +97,9 @@
   ],
 
   <span class="function"><span class="keyword">function</span><span class="params">(utils, registry, debug)</span> {</span>
-    <span class="string">'use strict'</span>;</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-2">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <p>common mixin allocates basic functionality - used by all component prototypes
-callback context is bound to component</p>
+    <span class="string">'use strict'</span>;
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">var</span> componentId = <span class="number">0</span>;
+    <span class="keyword">var</span> componentId = <span class="number">0</span>;
 
     <span class="function"><span class="keyword">function</span> <span class="title">teardownInstance</span><span class="params">(instanceInfo)</span>{</span>
       instanceInfo.events.slice().forEach(<span class="function"><span class="keyword">function</span><span class="params">(event)</span> {</span>
@@ -140,18 +128,54 @@ callback context is bound to component</p>
         </li>
         
         
-        <li id="section-3">
+        <li id="section-2">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
+                <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>delegate trigger, bind and unbind to an element
-if $element not supplied, use component&#39;s node
-other arguments are passed on
-event can be either a string specifying the type
-of the event, or a hash specifying both the type
-and a default function to be called.</p>
+              <p>Mempublikasikan event. Ketika sebuah event dibangkitkan,
+ia akan dibangkitkan pada suatu element tertentu. Pada
+element apa suatu event akan dibangkitkan tergantung
+pada bagaimana metode <code>trigger</code> dijalankan.</p>
+<p>Ada beberapa contoh bagaimana menjalankan
+<code>trigger()</code>:</p>
+<h4 id="cara-pertama">Cara Pertama</h4>
+<pre><code class="lang-javascript">function saveDocument() {
+   this.save = function() {
+       this.trigger(&#39;documentSaved&#39;, savedDocument);
+   }
+}
+</code></pre>
+<p>Contoh di atas akan mempublikasikan event <code>documentSaved</code> dengan
+<em>event data</em> berupa <code>savedDocument</code>. Event tersebut akan dibangkitkan
+pada element dimana komponen di atas diinisiasi.</p>
+<p>Misalnya, komponen <code>SaveDocument</code> diinisiasi pada element dengan
+id berupa <code>save-document</code>:</p>
+<pre><code class="lang-javascript">saveDocument.attachTo(&#39;#save-document&#39;)
+</code></pre>
+<p>Maka berdasarkan contoh di atas, event <code>documentSaved</code> akan
+dibangkitkan pada element <code>#save-document</code>.</p>
+<h4 id="cara-kedua">Cara Kedua</h4>
+<pre><code class="lang-javascript">function saveDocument() {
+   this.save = function() {
+       this.trigger(document, &#39;documentSaved&#39;, savedDocument);
+   }
+}
+</code></pre>
+<p>Contoh di atas tidaklah jauh berbeda dengan contoh sebelumnya. Yang
+berbeda hanyalah pada element apa event <code>documentSaved</code> dipublikasikamn.
+Pada contoh ini, event <code>documentSaved</code> akan dibangkitkan pada element
+<code>document</code>.</p>
+<p>Jadi, suatu event (parameter kedua), akan dibangkitkan pada element
+yang menduduki posisi parameter pertama.</p>
+<h4 id="cara-ketiga">Cara Ketiga</h4>
+<pre><code class="lang-javascript">this.trigger(&#39;#textInput&#39;, {
+  type: &#39;escapePressed&#39;,
+  defaultBehavior: this.blur
+});
+</code></pre>
+<p><strong>TODO</strong> Jelaskan</p>
 
             </div>
             
@@ -205,11 +229,11 @@ and a default function to be called.</p>
         </li>
         
         
-        <li id="section-4">
+        <li id="section-3">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
+                <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
               <p>delegate callback</p>
 
@@ -243,11 +267,11 @@ and a default function to be called.</p>
         </li>
         
         
-        <li id="section-5">
+        <li id="section-4">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
+                <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
               <p>store every bound version of the callback</p>
 
@@ -281,11 +305,11 @@ and a default function to be called.</p>
         </li>
         
         
-        <li id="section-6">
+        <li id="section-5">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
+                <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
               <p>set callback to version bound against this instance</p>
 
@@ -330,11 +354,11 @@ and a default function to be called.</p>
         </li>
         
         
-        <li id="section-7">
+        <li id="section-6">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
               <p>only assign identity if there isn&#39;t one (initialize can be called multiple times)</p>
 
@@ -357,11 +381,11 @@ and a default function to be called.</p>
         </li>
         
         
-        <li id="section-8">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>merge defaults with supplied options
 put options in attr.<strong>proto</strong> to avoid merge overhead</p>

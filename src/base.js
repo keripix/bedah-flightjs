@@ -1,3 +1,5 @@
+// Module `base` menyediakan mixin dasar yang akan dimiliki oleh semua
+// komponen FlightJS.
 define(
 
   [
@@ -9,8 +11,6 @@ define(
   function(utils, registry, debug) {
     'use strict';
 
-    // common mixin allocates basic functionality - used by all component prototypes
-    // callback context is bound to component
     var componentId = 0;
 
     function teardownInstance(instanceInfo){
@@ -37,12 +37,65 @@ define(
 
     function withBase() {
 
-      // delegate trigger, bind and unbind to an element
-      // if $element not supplied, use component's node
-      // other arguments are passed on
-      // event can be either a string specifying the type
-      // of the event, or a hash specifying both the type
-      // and a default function to be called.
+      // Mempublikasikan event. Ketika sebuah event dibangkitkan,
+      // ia akan dibangkitkan pada suatu element tertentu. Pada
+      // element apa suatu event akan dibangkitkan tergantung
+      // pada bagaimana metode `trigger` dijalankan.
+      // 
+      // Ada beberapa contoh bagaimana menjalankan
+      // `trigger()`:
+      // 
+      // #### Cara Pertama
+      // 
+      // ```javascript
+      // function saveDocument() {
+      //    this.save = function() {
+      //        this.trigger('documentSaved', savedDocument);
+      //    }
+      // }
+      // ```
+      // Contoh di atas akan mempublikasikan event `documentSaved` dengan
+      // *event data* berupa `savedDocument`. Event tersebut akan dibangkitkan
+      // pada element dimana komponen di atas diinisiasi.
+      // 
+      // Misalnya, komponen `SaveDocument` diinisiasi pada element dengan
+      // id berupa `save-document`:
+      // 
+      // ```javascript
+      // saveDocument.attachTo('#save-document')
+      // ```
+      // 
+      // Maka berdasarkan contoh di atas, event `documentSaved` akan
+      // dibangkitkan pada element `#save-document`.
+      // 
+      // #### Cara Kedua
+      // 
+      // ```javascript
+      // function saveDocument() {
+      //    this.save = function() {
+      //        this.trigger(document, 'documentSaved', savedDocument);
+      //    }
+      // }
+      // ```
+      // 
+      // Contoh di atas tidaklah jauh berbeda dengan contoh sebelumnya. Yang
+      // berbeda hanyalah pada element apa event `documentSaved` dipublikasikamn.
+      // Pada contoh ini, event `documentSaved` akan dibangkitkan pada element
+      // `document`.
+      // 
+      // Jadi, suatu event (parameter kedua), akan dibangkitkan pada element
+      // yang menduduki posisi parameter pertama.
+      // 
+      // #### Cara Ketiga
+      // 
+      // ```javascript
+      // this.trigger('#textInput', {
+      //   type: 'escapePressed',
+      //   defaultBehavior: this.blur
+      // });
+      // ```
+      // 
+      // **TODO** Jelaskan
       this.trigger = function() {
         var $element, type, data, event, defaultFn;
         var lastIndex = arguments.length - 1, lastArg = arguments[lastIndex];
