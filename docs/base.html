@@ -531,9 +531,38 @@ pada element <code>#save</code>.</p>
         originalCb.bound.push(callback);
 
         <span class="keyword">return</span> callback;
-      };
+      };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <h3 id="off">off</h3>
+<p>Berhenti mendengarkan suatu <code>event</code> pada <code>element</code> tertentu.</p>
+<p>Bentuknya adalah sebagai berikut:</p>
+<pre><code>this.off(document, &#39;save&#39;. this.onSave);
+</code></pre><p>Parameter pada contoh di atas adalah:</p>
+<ol>
+<li><code>element</code>: event ini dibangkitkan di element apa?</li>
+<li><code>event</code>: nama event yang hendak berhenti didengarkan</li>
+<li><code>eventHandler</code>: event handler yang hendak berhenti dijalankan.</li>
+</ol>
+<p>Parameter 1 dan 3 sifatnya opsional. Bila parameter 1 tidak disertakan,
+berarti element yang memiliki <code>event</code> adalah element yang
+dipasangkan terhadap komponen ketika komponen di-inisiasi.</p>
+<p>Bila parameter 3 <strong>disertakan</strong>, maka hanya <code>eventHandler</code> ini saja yang
+akan berhenti dijalankan ketika <code>event</code> dibangkitkan pada <code>element</code>.
+Bila parameter 3 <strong>tidak disertakana</strong>, maka semua event handler
+di-non-aktifkan.</p>
 
-      <span class="keyword">this</span>.off = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>.off = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
         <span class="keyword">var</span> $element, type, callback;
         <span class="keyword">var</span> lastIndex = arguments.length - <span class="number">1</span>;
 
@@ -555,11 +584,11 @@ pada element <code>#save</code>.</p>
         </li>
         
         
-        <li id="section-19">
+        <li id="section-20">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <p>set callback to version bound against this instance</p>
 
@@ -604,11 +633,11 @@ pada element <code>#save</code>.</p>
         </li>
         
         
-        <li id="section-20">
+        <li id="section-21">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <p>only assign identity if there isn&#39;t one (initialize can be called multiple times)</p>
 
@@ -631,11 +660,11 @@ pada element <code>#save</code>.</p>
         </li>
         
         
-        <li id="section-21">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               <p>merge defaults with supplied options
 put options in attr.<strong>proto</strong> to avoid merge overhead</p>

@@ -280,6 +280,30 @@ define(
         return callback;
       };
 
+      // ### off
+      // 
+      // Berhenti mendengarkan suatu `event` pada `element` tertentu.
+      // 
+      // Bentuknya adalah sebagai berikut:
+      // 
+      // ```
+      // this.off(document, 'save'. this.onSave);
+      // ```
+      // 
+      // Parameter pada contoh di atas adalah:
+      // 
+      // 1. `element`: event ini dibangkitkan di element apa?
+      // 2. `event`: nama event yang hendak berhenti didengarkan
+      // 3. `eventHandler`: event handler yang hendak berhenti dijalankan.
+      // 
+      // Parameter 1 dan 3 sifatnya opsional. Bila parameter 1 tidak disertakan,
+      // berarti element yang memiliki `event` adalah element yang
+      // dipasangkan terhadap komponen ketika komponen di-inisiasi.
+      // 
+      // Bila parameter 3 **disertakan**, maka hanya `eventHandler` ini saja yang
+      // akan berhenti dijalankan ketika `event` dibangkitkan pada `element`.
+      // Bila parameter 3 **tidak disertakan**, maka semua event handler
+      // di-non-aktifkan.
       this.off = function() {
         var $element, type, callback;
         var lastIndex = arguments.length - 1;
