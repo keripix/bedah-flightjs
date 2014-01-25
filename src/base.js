@@ -103,17 +103,22 @@ define(
         var $element, type, data, event, defaultFn;
         var lastIndex = arguments.length - 1, lastArg = arguments[lastIndex];
 
+        // Memeriksa apakah argument terakhir dari metode ini adalah sebuah
+        // event data atau bukan.
+        // 
+        // Cara menentukanny adalah apakah:
+        // 
+        // 1. Apakah `lastArg` bertipekan `string` atau bukan. Ingat bahwa
         if (typeof lastArg != 'string' && !(lastArg && lastArg.defaultBehavior)) {
           lastIndex--;
           data = lastArg;
         }
 
-        // Bila bentu event seperti *Cara Pertama* di atas.
         if (lastIndex == 1) {
 
           // element dimana event akan dibangkitkan
           $element = $(arguments[0]);
-          // yang akan menjadi event data
+
           event = arguments[1];
         } else {
 
@@ -131,9 +136,11 @@ define(
 
         type = event.type || event;
 
+        // Jika mode *debug* di aktifkan, maka kita
+        // dapat memeriksa apakah *event data* yang 
+        // disertakan pada event ini bertipekan objek
+        // literal.
         if (debug.enabled && window.postMessage) {
-          // memeriksa apakah *event data* berupa objek
-          // atau tidak
           checkSerializable.call(this, type, data);
         }
 
