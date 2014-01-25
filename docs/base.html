@@ -646,9 +646,30 @@ diproses</p>
         }, <span class="keyword">this</span>);
 
         <span class="keyword">return</span> rules;
-      };
-
-      <span class="keyword">this</span>.defaultAttrs = <span class="function"><span class="keyword">function</span><span class="params">(defaults)</span> {</span>
+      };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <h3 id="defaultattrs">defaultattrs</h3>
+<p>Menentukan atribut bawaan yang dimiliki oleh komponent.</p>
+<pre><code>this.defaultAttrs({
+   nama: &#39;suatu nama&#39;,
+   alamat: &#39;suatu alamat&#39;
+});
+</code></pre><p>Setelah komponen di-inisialisasi, kita dapat mengakses atribut di atas
+dengan cara:</p>
+<pre><code>this.attrs.nama; // =&gt; suatu nama
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>.defaultAttrs = <span class="function"><span class="keyword">function</span><span class="params">(defaults)</span> {</span>
         utils.push(<span class="keyword">this</span>.defaults, defaults, <span class="literal">true</span>) || (<span class="keyword">this</span>.defaults = defaults);
       };
 
@@ -662,11 +683,11 @@ diproses</p>
         </li>
         
         
-        <li id="section-23">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p>only assign identity if there isn&#39;t one (initialize can be called multiple times)</p>
 
@@ -689,11 +710,11 @@ diproses</p>
         </li>
         
         
-        <li id="section-24">
+        <li id="section-25">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
+                <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
               <p>merge defaults with supplied options
 put options in attr.<strong>proto</strong> to avoid merge overhead</p>

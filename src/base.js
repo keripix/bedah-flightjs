@@ -353,6 +353,23 @@ define(
         return rules;
       };
 
+      // ### defaultattrs
+      // 
+      // Menentukan atribut bawaan yang dimiliki oleh komponent.
+      // 
+      // ```
+      // this.defaultAttrs({
+      //    nama: 'suatu nama',
+      //    alamat: 'suatu alamat'
+      // });
+      // ```
+      // 
+      // Setelah komponen di-inisialisasi, kita dapat mengakses atribut di atas
+      // dengan cara:
+      // 
+      // ```
+      // this.attrs.nama; // => suatu nama
+      // ```
       this.defaultAttrs = function(defaults) {
         utils.push(this.defaults, defaults, true) || (this.defaults = defaults);
       };
