@@ -714,10 +714,7 @@ this.findNav = function() {
             </div>
             
             <div class="content"><div class='highlight'><pre>        <span class="keyword">return</span> <span class="keyword">this</span>.$node.find(<span class="keyword">this</span>.attr[attributeKey]);
-      };
-
-      <span class="keyword">this</span>.initialize = <span class="function"><span class="keyword">function</span><span class="params">(node, attrs)</span> {</span>
-        attrs || (attrs = {});</pre></div></div>
+      };</pre></div></div>
             
         </li>
         
@@ -727,6 +724,32 @@ this.findNav = function() {
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <h3 id="initialize">initialize</h3>
+<p>Menjalankan proses inisialisasi komponen. Agar sebuah komponen dapat
+diinisialisasi, ia harus dipasangkan pada sebuah <code>element</code>.</p>
+<p>Contohnya:</p>
+<pre><code>suatuKomponenNavigation.attachTo(&#39;nav&#39;, {
+   brandTitle: &#39;FlighJS&#39;
+});
+</code></pre><p>Pada contoh di atas, kita menginisiasi komponen <code>suatuKomponenNavigation</code>
+pada element <code>nav</code>. Contoh di atas juga memperlihatkan bahwa kita
+dapat memasang nilai dari atribut <code>brandTitle</code> yang dimiliki oleh
+komponen <code>suatuKomponenNavigation</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>.initialize = <span class="function"><span class="keyword">function</span><span class="params">(node, attrs)</span> {</span>
+        attrs || (attrs = {});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               <p>only assign identity if there isn&#39;t one (initialize can be called multiple times)</p>
 
@@ -749,11 +772,11 @@ this.findNav = function() {
         </li>
         
         
-        <li id="section-27">
+        <li id="section-28">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-27">&#182;</a>
+                <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
               <p>merge defaults with supplied options
 put options in attr.<strong>proto</strong> to avoid merge overhead</p>

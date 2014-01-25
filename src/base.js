@@ -400,6 +400,23 @@ define(
         return this.$node.find(this.attr[attributeKey]);
       };
 
+      // ### initialize
+      // 
+      // Menjalankan proses inisialisasi komponen. Agar sebuah komponen dapat
+      // diinisialisasi, ia harus dipasangkan pada sebuah `element`.
+      // 
+      // Contohnya:
+      // 
+      // ```
+      // suatuKomponenNavigation.attachTo('nav', {
+      //    brandTitle: 'FlighJS'
+      // });
+      // ```
+      // 
+      // Pada contoh di atas, kita menginisiasi komponen `suatuKomponenNavigation`
+      // pada element `nav`. Contoh di atas juga memperlihatkan bahwa kita
+      // dapat memasang nilai dari atribut `brandTitle` yang dimiliki oleh
+      // komponen `suatuKomponenNavigation`.
       this.initialize = function(node, attrs) {
         attrs || (attrs = {});
         //only assign identity if there isn't one (initialize can be called multiple times)
