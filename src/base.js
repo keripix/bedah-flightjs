@@ -453,8 +453,9 @@ define(
           this.$node = $(node);
         }
 
-        // merge defaults with supplied options
-        // put options in attr.__proto__ to avoid merge overhead
+        // Pada langkah ini, kita sedang menggabungkan antara atribut bawaan yang dimiliki
+        // oleh komponen (yang telah ditentukan melalui `this.defaultAttrs`)
+        // dengan atribut yang diberikan oleh user ketika komponen diinisiasi
         var attr = Object.create(attrs);
         for (var key in this.defaults) {
           if (!attrs.hasOwnProperty(key)) {
@@ -464,6 +465,28 @@ define(
 
         this.attr = attr;
 
+        // Kita gunakan contoh untuk menjelaskan proses ini.
+        // 
+        // Misalkan user telah menentukan atribut berikut untuk sebuah komponen:
+        // 
+        // ```
+        // // komponen suatuKomponen
+        // this.defaultAttrs({
+        //    nama: null
+        // });
+        // ```
+        // 
+        // Perhatikan bahwa kita tidak memberikan nilai pada `nama`.
+        // 
+        // Nah, ketika komponen tersebut diinisiasi, kita juga tidak
+        // memberikan nilai terhadap `nama`:
+        // 
+        // ```
+        // suatuKomponen.attachTo('nav');
+        // ```
+        // 
+        // Ketika hal di atas terjadi, maka FlightJS akan membangkitkan error
+        // bahwa `nama` perlu diberikan nilai.
         Object.keys(this.defaults || {}).forEach(function(key) {
           if (this.defaults[key] === null && this.attr[key] === null) {
             throw new Error('Required attribute "' + key + '" not specified in attachTo for component "' + this.toString() + '".');

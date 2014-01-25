@@ -826,8 +826,9 @@ suatuKomponen.attachTo(navigation);
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
-              <p>merge defaults with supplied options
-put options in attr.<strong>proto</strong> to avoid merge overhead</p>
+              <p>Pada langkah ini, kita sedang menggabungkan antara atribut bawaan yang dimiliki
+oleh komponen (yang telah ditentukan melalui <code>this.defaultAttrs</code>)
+dengan atribut yang diberikan oleh user ketika komponen diinisiasi</p>
 
             </div>
             
@@ -838,9 +839,33 @@ put options in attr.<strong>proto</strong> to avoid merge overhead</p>
           }
         }
 
-        <span class="keyword">this</span>.attr = attr;
+        <span class="keyword">this</span>.attr = attr;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>Kita gunakan contoh untuk menjelaskan proses ini.</p>
+<p>Misalkan user telah menentukan atribut berikut untuk sebuah komponen:</p>
+<pre><code>// komponen suatuKomponen
+this.defaultAttrs({
+   nama: null
+});
+</code></pre><p>Perhatikan bahwa kita tidak memberikan nilai pada <code>nama</code>.</p>
+<p>Nah, ketika komponen tersebut diinisiasi, kita juga tidak
+memberikan nilai terhadap <code>nama</code>:</p>
+<pre><code>suatuKomponen.attachTo(&#39;nav&#39;);
+</code></pre><p>Ketika hal di atas terjadi, maka FlightJS akan membangkitkan error
+bahwa <code>nama</code> perlu diberikan nilai.</p>
 
-        Object.keys(<span class="keyword">this</span>.defaults || {}).forEach(<span class="function"><span class="keyword">function</span><span class="params">(key)</span> {</span>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        Object.keys(<span class="keyword">this</span>.defaults || {}).forEach(<span class="function"><span class="keyword">function</span><span class="params">(key)</span> {</span>
           <span class="keyword">if</span> (<span class="keyword">this</span>.defaults[key] === <span class="literal">null</span> &amp;&amp; <span class="keyword">this</span>.attr[key] === <span class="literal">null</span>) {
             <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">'Required attribute "'</span> + key + <span class="string">'" not specified in attachTo for component "'</span> + <span class="keyword">this</span>.toString() + <span class="string">'".'</span>);
           }
