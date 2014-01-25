@@ -463,6 +463,7 @@ define(
           }
         }
 
+        // Kita dapat mengakses atribut komponen melalui `this.attr`
         this.attr = attr;
 
         // Kita gunakan contoh untuk menjelaskan proses ini.
