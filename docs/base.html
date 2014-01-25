@@ -557,21 +557,50 @@ berarti element yang memiliki <code>event</code> adalah element yang
 dipasangkan terhadap komponen ketika komponen di-inisiasi.</p>
 <p>Bila parameter 3 <strong>disertakan</strong>, maka hanya <code>eventHandler</code> ini saja yang
 akan berhenti dijalankan ketika <code>event</code> dibangkitkan pada <code>element</code>.
-Bila parameter 3 <strong>tidak disertakana</strong>, maka semua event handler
+Bila parameter 3 <strong>tidak disertakan</strong>, maka semua event handler
 di-non-aktifkan.</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>.off = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
         <span class="keyword">var</span> $element, type, callback;
-        <span class="keyword">var</span> lastIndex = arguments.length - <span class="number">1</span>;
+        <span class="keyword">var</span> lastIndex = arguments.length - <span class="number">1</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Periksa apakah argument terakhir adalah sebuah referensi terhadap
+fungsi atau bukan. Bila ia, maka kita tahu bahwa user hendak
+menonaktifkan event handler ini.</p>
 
-        <span class="keyword">if</span> (<span class="keyword">typeof</span> arguments[lastIndex] == <span class="string">'function'</span>) {
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> (<span class="keyword">typeof</span> arguments[lastIndex] == <span class="string">'function'</span>) {
           callback = arguments[lastIndex];
           lastIndex -= <span class="number">1</span>;
-        }
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Mendeteksi <code>element</code> yang meiliki event beserta <code>event</code> yang hendak
+diproses</p>
 
-        <span class="keyword">if</span> (lastIndex == <span class="number">1</span>) {
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> (lastIndex == <span class="number">1</span>) {
           $element = $(arguments[<span class="number">0</span>]);
           type = arguments[<span class="number">1</span>];
         } <span class="keyword">else</span> {
@@ -584,11 +613,11 @@ di-non-aktifkan.</p>
         </li>
         
         
-        <li id="section-20">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               <p>set callback to version bound against this instance</p>
 
@@ -633,11 +662,11 @@ di-non-aktifkan.</p>
         </li>
         
         
-        <li id="section-21">
+        <li id="section-23">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <p>only assign identity if there isn&#39;t one (initialize can be called multiple times)</p>
 
@@ -660,11 +689,11 @@ di-non-aktifkan.</p>
         </li>
         
         
-        <li id="section-22">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-22">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p>merge defaults with supplied options
 put options in attr.<strong>proto</strong> to avoid merge overhead</p>

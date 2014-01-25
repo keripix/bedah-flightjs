@@ -308,11 +308,16 @@ define(
         var $element, type, callback;
         var lastIndex = arguments.length - 1;
 
+        // Periksa apakah argument terakhir adalah sebuah referensi terhadap
+        // fungsi atau bukan. Bila ia, maka kita tahu bahwa user hendak
+        // menonaktifkan event handler ini.
         if (typeof arguments[lastIndex] == 'function') {
           callback = arguments[lastIndex];
           lastIndex -= 1;
         }
 
+        // Mendeteksi `element` yang meiliki event beserta `event` yang hendak
+        // diproses
         if (lastIndex == 1) {
           $element = $(arguments[0]);
           type = arguments[1];
