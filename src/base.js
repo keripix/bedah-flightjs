@@ -432,6 +432,19 @@ define(
           throw new Error('Component needs a node');
         }
 
+        // Kita dapat menginisialisasi komponen terhadap selector yang memilih
+        // sebuah element, ataupun terhadap instanta jquery yang telah memilih
+        // element tersebut. Contohnya:
+        // 
+        // ```
+        // suatuKomponent.attachTo('.suatuElement');
+        // ```
+        // 
+        // ```
+        // navigation = $('nav');
+        // 
+        // suatuKomponen.attachTo(navigation);
+        // ```
         if (node.jquery) {
           this.node = node[0];
           this.$node = node;

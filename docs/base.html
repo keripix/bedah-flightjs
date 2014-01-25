@@ -788,14 +788,6 @@ batalkan inisiasi komponen</p>
             
             <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> (!node) {
           <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">'Component needs a node'</span>);
-        }
-
-        <span class="keyword">if</span> (node.jquery) {
-          <span class="keyword">this</span>.node = node[<span class="number">0</span>];
-          <span class="keyword">this</span>.$node = node;
-        } <span class="keyword">else</span> {
-          <span class="keyword">this</span>.node = node;
-          <span class="keyword">this</span>.$node = $(node);
         }</pre></div></div>
             
         </li>
@@ -806,6 +798,33 @@ batalkan inisiasi komponen</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>Kita dapat menginisialisasi komponen terhadap selector yang memilih
+sebuah element, ataupun terhadap instanta jquery yang telah memilih
+element tersebut. Contohnya:</p>
+<pre><code>suatuKomponent.attachTo(&#39;.suatuElement&#39;);
+</code></pre><pre><code>navigation = $(&#39;nav&#39;);
+
+suatuKomponen.attachTo(navigation);
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> (node.jquery) {
+          <span class="keyword">this</span>.node = node[<span class="number">0</span>];
+          <span class="keyword">this</span>.$node = node;
+        } <span class="keyword">else</span> {
+          <span class="keyword">this</span>.node = node;
+          <span class="keyword">this</span>.$node = $(node);
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
               <p>merge defaults with supplied options
 put options in attr.<strong>proto</strong> to avoid merge overhead</p>
