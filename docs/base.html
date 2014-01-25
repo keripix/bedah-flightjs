@@ -885,9 +885,23 @@ bahwa <code>nama</code> perlu diberikan nilai.</p>
         }, <span class="keyword">this</span>);
 
         <span class="keyword">return</span> <span class="keyword">this</span>;
-      };
+      };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <h3 id="teardown">teardown</h3>
+<p>Memberhentikan komponen ini</p>
 
-      <span class="keyword">this</span>.teardown = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>.teardown = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
         teardownInstance(registry.findInstanceInfo(<span class="keyword">this</span>));
       };
     }

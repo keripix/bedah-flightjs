@@ -497,6 +497,9 @@ define(
         return this;
       };
 
+      // ### teardown
+      // 
+      // Memberhentikan komponen ini
       this.teardown = function() {
         teardownInstance(registry.findInstanceInfo(this));
       };
