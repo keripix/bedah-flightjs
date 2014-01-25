@@ -671,14 +671,7 @@ dengan cara:</p>
             
             <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>.defaultAttrs = <span class="function"><span class="keyword">function</span><span class="params">(defaults)</span> {</span>
         utils.push(<span class="keyword">this</span>.defaults, defaults, <span class="literal">true</span>) || (<span class="keyword">this</span>.defaults = defaults);
-      };
-
-      <span class="keyword">this</span>.select = <span class="function"><span class="keyword">function</span><span class="params">(attributeKey)</span> {</span>
-        <span class="keyword">return</span> <span class="keyword">this</span>.$node.find(<span class="keyword">this</span>.attr[attributeKey]);
-      };
-
-      <span class="keyword">this</span>.initialize = <span class="function"><span class="keyword">function</span><span class="params">(node, attrs)</span> {</span>
-        attrs || (attrs = {});</pre></div></div>
+      };</pre></div></div>
             
         </li>
         
@@ -688,6 +681,52 @@ dengan cara:</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <h3 id="select">select</h3>
+<p>Fungsi bantuan untuk mencari <code>element</code> yang menjadi anggota dari element
+<code>$node</code>.</p>
+<p>Element <code>$node</code> adalah element dimana komponen ini di-inisiasi.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>.select = <span class="function"><span class="keyword">function</span><span class="params">(attributeKey)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>Untuk menggunakan metode <code>select</code> ini, pastikan bahwa referensi
+terhadap element sudah di pasang di <code>this.defaultAttrs</code>.</p>
+<p>Contohnya:</p>
+<pre><code>this.defaultAttrs({
+   &#39;navigation&#39;: &#39;nav&#39;
+});
+
+this.findNav = function() {
+   this.select(&#39;navigation&#39;); // =&gt; mengembalikan semua element nav
+};
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">return</span> <span class="keyword">this</span>.$node.find(<span class="keyword">this</span>.attr[attributeKey]);
+      };
+
+      <span class="keyword">this</span>.initialize = <span class="function"><span class="keyword">function</span><span class="params">(node, attrs)</span> {</span>
+        attrs || (attrs = {});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <p>only assign identity if there isn&#39;t one (initialize can be called multiple times)</p>
 
@@ -710,11 +749,11 @@ dengan cara:</p>
         </li>
         
         
-        <li id="section-25">
+        <li id="section-27">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-25">&#182;</a>
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               <p>merge defaults with supplied options
 put options in attr.<strong>proto</strong> to avoid merge overhead</p>

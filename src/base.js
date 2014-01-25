@@ -374,7 +374,29 @@ define(
         utils.push(this.defaults, defaults, true) || (this.defaults = defaults);
       };
 
+      // ### select
+      // 
+      // Fungsi bantuan untuk mencari `element` yang menjadi anggota dari element
+      // `$node`.
+      // 
+      // Element `$node` adalah element dimana komponen ini di-inisiasi.
+      //
       this.select = function(attributeKey) {
+
+        // Untuk menggunakan metode `select` ini, pastikan bahwa referensi
+        // terhadap element sudah di pasang di `this.defaultAttrs`.
+        // 
+        // Contohnya:
+        // 
+        // ```
+        // this.defaultAttrs({
+        //    'navigation': 'nav'
+        // });
+        // 
+        // this.findNav = function() {
+        //    this.select('navigation'); // => mengembalikan semua element nav
+        // };
+        // ```
         return this.$node.find(this.attr[attributeKey]);
       };
 
