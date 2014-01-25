@@ -739,8 +739,7 @@ komponen <code>suatuKomponenNavigation</code>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>.initialize = <span class="function"><span class="keyword">function</span><span class="params">(node, attrs)</span> {</span>
-        attrs || (attrs = {});</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>.initialize = <span class="function"><span class="keyword">function</span><span class="params">(node, attrs)</span> {</span></pre></div></div>
             
         </li>
         
@@ -750,6 +749,22 @@ komponen <code>suatuKomponenNavigation</code>.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>Teknik menjadikan argument <code>attrs</code> menjadi sebuah objek ketika user
+tidak menyertakannya. alias <code>undefined</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        attrs || (attrs = {});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
               <p>only assign identity if there isn&#39;t one (initialize can be called multiple times)</p>
 
@@ -772,11 +787,11 @@ komponen <code>suatuKomponenNavigation</code>.</p>
         </li>
         
         
-        <li id="section-28">
+        <li id="section-29">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-28">&#182;</a>
+                <a class="pilcrow" href="#section-29">&#182;</a>
               </div>
               <p>merge defaults with supplied options
 put options in attr.<strong>proto</strong> to avoid merge overhead</p>

@@ -418,6 +418,9 @@ define(
       // dapat memasang nilai dari atribut `brandTitle` yang dimiliki oleh
       // komponen `suatuKomponenNavigation`.
       this.initialize = function(node, attrs) {
+
+        // Teknik menjadikan argument `attrs` menjadi sebuah objek ketika user
+        // tidak menyertakannya. alias `undefined`
         attrs || (attrs = {});
         //only assign identity if there isn't one (initialize can be called multiple times)
         this.identity || (this.identity = componentId++);
