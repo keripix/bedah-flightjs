@@ -106,7 +106,7 @@ define(
         // Memeriksa apakah argument terakhir dari metode ini adalah sebuah
         // event data atau bukan.
         // 
-        // Cara menentukanny adalah apakah:
+        // Cara menentukanny adalah:
         // 
         // 1. Apakah `lastArg` bertipekan `string` atau bukan. Ingat bahwa
         if (typeof lastArg != 'string' && !(lastArg && lastArg.defaultBehavior)) {
@@ -114,17 +114,29 @@ define(
           data = lastArg;
         }
 
+        // Format `trigger` ini memiliki argument:
+        // 
+        // 1. `element`: element dimana event akan dibangkitkan
+        // 2. `event`: event yang hendak dibangkitkan
         if (lastIndex == 1) {
 
           // element dimana event akan dibangkitkan
           $element = $(arguments[0]);
 
+          // rekam event
           event = arguments[1];
         } else {
+          // Format `trigger` ini memiliki argument berikut:
+          // 
+          // 1. `event`: nama event
+          // 
+          // Di element mana event akan dibangkitkan? Event akan
+          // dibangkitkan pada element dimana komponen diinisiasi.
 
           // element yang akan membangkitkan event ini adalah
           // element dimana komponen diinisiasi
           $element = this.$node;
+          
           // yang akan menjadi event data
           event = arguments[0];
         }
