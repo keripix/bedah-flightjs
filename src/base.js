@@ -422,9 +422,12 @@ define(
         // Teknik menjadikan argument `attrs` menjadi sebuah objek ketika user
         // tidak menyertakannya. alias `undefined`
         attrs || (attrs = {});
+
         //only assign identity if there isn't one (initialize can be called multiple times)
         this.identity || (this.identity = componentId++);
 
+        // Bila komponen ini tidak dipasangkan pada sebuah element, maka kita
+        // batalkan inisiasi komponen
         if (!node) {
           throw new Error('Component needs a node');
         }

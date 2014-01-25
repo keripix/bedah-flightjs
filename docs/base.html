@@ -770,9 +770,23 @@ tidak menyertakannya. alias <code>undefined</code></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="keyword">this</span>.identity || (<span class="keyword">this</span>.identity = componentId++);
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">this</span>.identity || (<span class="keyword">this</span>.identity = componentId++);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>Bila komponen ini tidak dipasangkan pada sebuah element, maka kita
+batalkan inisiasi komponen</p>
 
-        <span class="keyword">if</span> (!node) {
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> (!node) {
           <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">'Component needs a node'</span>);
         }
 
@@ -787,11 +801,11 @@ tidak menyertakannya. alias <code>undefined</code></p>
         </li>
         
         
-        <li id="section-29">
+        <li id="section-30">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-29">&#182;</a>
+                <a class="pilcrow" href="#section-30">&#182;</a>
               </div>
               <p>merge defaults with supplied options
 put options in attr.<strong>proto</strong> to avoid merge overhead</p>
