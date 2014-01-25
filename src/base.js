@@ -35,8 +35,11 @@ define(
       }
     }
 
+    // ### withBase
     function withBase() {
 
+      // ### trigger
+      // 
       // Mempublikasikan event. Ketika sebuah event dibangkitkan,
       // ia akan dibangkitkan pada suatu element tertentu. Pada
       // element apa suatu event akan dibangkitkan tergantung
@@ -136,7 +139,7 @@ define(
           // element yang akan membangkitkan event ini adalah
           // element dimana komponen diinisiasi
           $element = this.$node;
-          
+
           // yang akan menjadi event data
           event = arguments[0];
         }
@@ -156,6 +159,10 @@ define(
           checkSerializable.call(this, type, data);
         }
 
+        // Bila komponen yang men-`trigger` event ini memiliki
+        // `attribute` berupa `eventData`, maka kita akan menggunakan
+        // data yang dipasang padanya sebagai tambahan untuk data
+        // yang disertkan ketika event dibangkitkan.
         if (typeof this.attr.eventData === 'object') {
           data = $.extend(true, {}, this.attr.eventData, data);
         }
@@ -171,6 +178,7 @@ define(
         return $element;
       };
 
+      // ### on
       // Mendengarkan event yang telah dibangkitkan oleh komponen lain
       this.on = function() {
 
@@ -210,8 +218,31 @@ define(
         // 
         // #### Bentuk Ketiga
         // 
+        // ```
+        // this.after('initialize', function() {
+        //   this.on('click', {
+        //     menuItemSelector: this.selectMenuItem,
+        //     saveButtonSelector: this.saveAll
+        //   });
+        // });
+        // ```
         // 
+        // Bentuk ketiga di atas hanya akan berjalan bila pada komponen ini,
+        // `attribute` memiliki properti `menuItemSelector` dan `saveButtonSelector`.
+        // Contohnya adalah sebagai berikut:
         // 
+        // ```
+        // this.defaultAttrs({
+        //   menuItemSelector: '.menuItem',
+        //   saveButtonSelector: '#save'
+        // });
+        // ```
+        // 
+        // Jadi, berdasarkan contoh di atas, event handler `this.selectMenuItem`
+        // akan dijalankan ketika event `click` dibangkitkan pada
+        // element `.menutItem`. Sementara itu, event handler
+        // `this.saveAll` akan dijalankan ketika event `click` dibangkitkan
+        // pada element `#save`.
         var $element, type, callback, originalCb;
         var lastIndex = arguments.length - 1, origin = arguments[lastIndex];
 
