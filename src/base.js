@@ -417,6 +417,18 @@ define(
       // pada element `nav`. Contoh di atas juga memperlihatkan bahwa kita
       // dapat memasang nilai dari atribut `brandTitle` yang dimiliki oleh
       // komponen `suatuKomponenNavigation`.
+      // 
+      // Metode `initialize` ini tidak perlu kita akses langsung. Karena FlightJS
+      // akan menjalankannya ketika `attachTo` dijalankan. Namun, kita dapat
+      // memanfaatkan [advice](advice.html) untuk menjalankan beberapa metode awal pasca
+      // metode `initialize` dijalankan.
+      // 
+      // Contohnya adalah sebagai berikut:
+      // ```
+      // this.after('initialize', function() {
+      //    console.log("saya dijalankan pasca komponen ini diinisiasi");
+      // });
+      // ```
       this.initialize = function(node, attrs) {
 
         // Teknik menjadikan argument `attrs` menjadi sebuah objek ketika user

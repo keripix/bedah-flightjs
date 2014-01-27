@@ -736,7 +736,15 @@ diinisialisasi, ia harus dipasangkan pada sebuah <code>element</code>.</p>
 pada element <code>nav</code>. Contoh di atas juga memperlihatkan bahwa kita
 dapat memasang nilai dari atribut <code>brandTitle</code> yang dimiliki oleh
 komponen <code>suatuKomponenNavigation</code>.</p>
-
+<p>Metode <code>initialize</code> ini tidak perlu kita akses langsung. Karena FlightJS
+akan menjalankannya ketika <code>attachTo</code> dijalankan. Namun, kita dapat
+memanfaatkan <a href="advice.html">advice</a> untuk menjalankan beberapa metode awal pasca
+metode <code>initialize</code> dijalankan.</p>
+<p>Contohnya adalah sebagai berikut:</p>
+<pre><code>this.after(&#39;initialize&#39;, function() {
+   console.log(&quot;saya dijalankan pasca komponen ini diinisiasi&quot;);
+});
+</code></pre>
             </div>
             
             <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>.initialize = <span class="function"><span class="keyword">function</span><span class="params">(node, attrs)</span> {</span></pre></div></div>
